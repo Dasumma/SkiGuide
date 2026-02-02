@@ -8,3 +8,9 @@ Abstract:
 Problem Statement:
 
 
+Creation Steps:
+
+1. download lifts, runs, and ski_areas geojson field from OpenSkiMap.
+2. Split the geojson files by region using scripting. (Python or Powershell)
+    **Powershell Script:**
+    ``
