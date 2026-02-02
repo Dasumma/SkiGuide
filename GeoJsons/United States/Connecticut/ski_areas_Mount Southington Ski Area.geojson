@@ -1,0 +1,164 @@
+{
+    "properties":  {
+                       "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                       "name":  "Mount Southington Ski Area",
+                       "type":  "skiArea",
+                       "places":  [
+                                      {
+                                          "iso3166_2":  "US-CT",
+                                          "localized":  {
+                                                            "en":  {
+                                                                       "region":  "Connecticut",
+                                                                       "country":  "United States",
+                                                                       "locality":  null
+                                                                   }
+                                                        },
+                                          "iso3166_1Alpha2":  "US"
+                                      }
+                                  ],
+                       "status":  "operating",
+                       "sources":  [
+                                       {
+                                           "id":  "way/390809151",
+                                           "type":  "openstreetmap"
+                                       },
+                                       {
+                                           "id":  494,
+                                           "type":  "skimap.org"
+                                       }
+                                   ],
+                       "websites":  [
+                                        "https://mountsouthington.com/"
+                                    ],
+                       "activities":  [
+                                          "downhill"
+                                      ],
+                       "statistics":  {
+                                          "runs":  {
+                                                       "byActivity":  {
+                                                                          "downhill":  {
+                                                                                           "byDifficulty":  {
+                                                                                                                "easy":  {
+                                                                                                                             "count":  2,
+                                                                                                                             "lengthInKm":  0.9296407333212258,
+                                                                                                                             "maxElevation":  169.1,
+                                                                                                                             "minElevation":  59.5,
+                                                                                                                             "combinedElevationChange":  116.2
+                                                                                                                         },
+                                                                                                                "novice":  {
+                                                                                                                               "count":  1,
+                                                                                                                               "lengthInKm":  0.07325343891432569,
+                                                                                                                               "maxElevation":  79.7,
+                                                                                                                               "minElevation":  69.6,
+                                                                                                                               "combinedElevationChange":  10.100000000000009
+                                                                                                                           },
+                                                                                                                "advanced":  {
+                                                                                                                                 "count":  1,
+                                                                                                                                 "lengthInKm":  0.20474656265255387,
+                                                                                                                                 "maxElevation":  163.5,
+                                                                                                                                 "minElevation":  128.1,
+                                                                                                                                 "combinedElevationChange":  35.400000000000006
+                                                                                                                             },
+                                                                                                                "intermediate":  {
+                                                                                                                                     "count":  6,
+                                                                                                                                     "lengthInKm":  1.6766589222434116,
+                                                                                                                                     "maxElevation":  173.1,
+                                                                                                                                     "minElevation":  87.4,
+                                                                                                                                     "combinedElevationChange":  254.49999999999997
+                                                                                                                                 }
+                                                                                                            }
+                                                                                       }
+                                                                      },
+                                                       "maxElevation":  173.1,
+                                                       "minElevation":  59.5
+                                                   },
+                                          "lifts":  {
+                                                        "byType":  {
+                                                                       "rope_tow":  {
+                                                                                        "count":  1,
+                                                                                        "lengthInKm":  0.0617821758564619,
+                                                                                        "maxElevation":  76.3,
+                                                                                        "minElevation":  64.8,
+                                                                                        "combinedElevationChange":  11.5
+                                                                                    },
+                                                                       "chair_lift":  {
+                                                                                          "count":  4,
+                                                                                          "lengthInKm":  2.063883542786388,
+                                                                                          "maxElevation":  172.6,
+                                                                                          "minElevation":  59.4,
+                                                                                          "combinedElevationChange":  349.8
+                                                                                      },
+                                                                       "magic_carpet":  {
+                                                                                            "count":  2,
+                                                                                            "lengthInKm":  0.0747043550772574,
+                                                                                            "maxElevation":  70.8,
+                                                                                            "minElevation":  60,
+                                                                                            "combinedElevationChange":  12.799999999999997
+                                                                                        }
+                                                                   },
+                                                        "maxElevation":  172.6,
+                                                        "minElevation":  59.4
+                                                    },
+                                          "maxElevation":  172.6,
+                                          "minElevation":  59.5
+                                      },
+                       "wikidataID":  "Q6923762",
+                       "runConvention":  "north_america"
+                   },
+    "type":  "Feature",
+    "geometry":  {
+                     "type":  "Polygon",
+                     "coordinates":  [
+                                         [
+                                             [
+                                                 -72.92468970000003,
+                                                 41.5798423
+                                             ],
+                                             [
+                                                 -72.92450740000002,
+                                                 41.579938700000014
+                                             ],
+                                             [
+                                                 -72.9242861,
+                                                 41.5810932
+                                             ],
+                                             [
+                                                 -72.9244027,
+                                                 41.5819682
+                                             ],
+                                             [
+                                                 -72.9249485,
+                                                 41.583889199999994
+                                             ],
+                                             [
+                                                 -72.9261317,
+                                                 41.5836311
+                                             ],
+                                             [
+                                                 -72.9288553,
+                                                 41.583437499999995
+                                             ],
+                                             [
+                                                 -72.933822,
+                                                 41.583041099999996
+                                             ],
+                                             [
+                                                 -72.93361240000003,
+                                                 41.5789296
+                                             ],
+                                             [
+                                                 -72.93182500000003,
+                                                 41.5790713
+                                             ],
+                                             [
+                                                 -72.928843,
+                                                 41.5793076
+                                             ],
+                                             [
+                                                 -72.92468970000003,
+                                                 41.5798423
+                                             ]
+                                         ]
+                                     ]
+                 }
+}

@@ -1,0 +1,185 @@
+{
+    "properties":  {
+                       "id":  "0f0d574cfdbd7b9a55296a94c4683b3e732a543b",
+                       "name":  "Okemo Mountain",
+                       "type":  "skiArea",
+                       "places":  [
+                                      {
+                                          "iso3166_2":  "US-VT",
+                                          "localized":  {
+                                                            "en":  {
+                                                                       "region":  "Vermont",
+                                                                       "country":  "United States",
+                                                                       "locality":  "Ludlow"
+                                                                   }
+                                                        },
+                                          "iso3166_1Alpha2":  "US"
+                                      },
+                                      {
+                                          "iso3166_2":  "US-VT",
+                                          "localized":  {
+                                                            "en":  {
+                                                                       "region":  "Vermont",
+                                                                       "country":  "United States",
+                                                                       "locality":  null
+                                                                   }
+                                                        },
+                                          "iso3166_1Alpha2":  "US"
+                                      }
+                                  ],
+                       "status":  "operating",
+                       "sources":  [
+                                       {
+                                           "id":  "way/1236284348",
+                                           "type":  "openstreetmap"
+                                       },
+                                       {
+                                           "id":  204,
+                                           "type":  "skimap.org"
+                                       }
+                                   ],
+                       "websites":  [
+                                        "https://www.okemo.com"
+                                    ],
+                       "activities":  [
+                                          "downhill"
+                                      ],
+                       "statistics":  {
+                                          "runs":  {
+                                                       "byActivity":  {
+                                                                          "downhill":  {
+                                                                                           "byDifficulty":  {
+                                                                                                                "easy":  {
+                                                                                                                             "count":  40,
+                                                                                                                             "lengthInKm":  25.057606515249354,
+                                                                                                                             "maxElevation":  1006.7,
+                                                                                                                             "minElevation":  350.6,
+                                                                                                                             "combinedElevationChange":  3294.8000000000006
+                                                                                                                         },
+                                                                                                                "expert":  {
+                                                                                                                               "count":  8,
+                                                                                                                               "lengthInKm":  4.4869180822968815,
+                                                                                                                               "maxElevation":  997.1,
+                                                                                                                               "minElevation":  480.6,
+                                                                                                                               "combinedElevationChange":  1235.3
+                                                                                                                           },
+                                                                                                                "novice":  {
+                                                                                                                               "count":  2,
+                                                                                                                               "lengthInKm":  0.09916238601422464,
+                                                                                                                               "maxElevation":  407.3,
+                                                                                                                               "minElevation":  392.5,
+                                                                                                                               "combinedElevationChange":  10.099999999999966
+                                                                                                                           },
+                                                                                                                "advanced":  {
+                                                                                                                                 "count":  23,
+                                                                                                                                 "lengthInKm":  15.265744868326479,
+                                                                                                                                 "maxElevation":  1000.6,
+                                                                                                                                 "minElevation":  451.2,
+                                                                                                                                 "combinedElevationChange":  3969.899999999999
+                                                                                                                             },
+                                                                                                                "freeride":  {
+                                                                                                                                 "count":  3,
+                                                                                                                                 "lengthInKm":  1.1563485656930037,
+                                                                                                                                 "maxElevation":  605.3,
+                                                                                                                                 "minElevation":  445.9,
+                                                                                                                                 "combinedElevationChange":  224.5999999999999
+                                                                                                                             },
+                                                                                                                "intermediate":  {
+                                                                                                                                     "count":  40,
+                                                                                                                                     "lengthInKm":  23.246196324951946,
+                                                                                                                                     "maxElevation":  1006.5,
+                                                                                                                                     "minElevation":  380.3,
+                                                                                                                                     "combinedElevationChange":  4790.499999999998
+                                                                                                                                 }
+                                                                                                            }
+                                                                                       }
+                                                                      },
+                                                       "maxElevation":  1006.7,
+                                                       "minElevation":  350.6
+                                                   },
+                                          "lifts":  {
+                                                        "byType":  {
+                                                                       "t-bar":  {
+                                                                                     "count":  1,
+                                                                                     "lengthInKm":  0.31606203721448833,
+                                                                                     "maxElevation":  602.6,
+                                                                                     "minElevation":  529.8,
+                                                                                     "combinedElevationChange":  72.80000000000007
+                                                                                 },
+                                                                       "chair_lift":  {
+                                                                                          "count":  13,
+                                                                                          "lengthInKm":  14.3927612814937,
+                                                                                          "maxElevation":  1007.4,
+                                                                                          "minElevation":  351.5,
+                                                                                          "combinedElevationChange":  3284.4000000000005
+                                                                                      },
+                                                                       "magic_carpet":  {
+                                                                                            "count":  7,
+                                                                                            "lengthInKm":  0.4438003338471744,
+                                                                                            "maxElevation":  413.7,
+                                                                                            "minElevation":  352.6,
+                                                                                            "combinedElevationChange":  38.900000000000034
+                                                                                        }
+                                                                   },
+                                                        "maxElevation":  1007.4,
+                                                        "minElevation":  351.5
+                                                    },
+                                          "maxElevation":  1006.7,
+                                          "minElevation":  351.5
+                                      },
+                       "wikidataID":  "Q7081931",
+                       "runConvention":  "north_america"
+                   },
+    "type":  "Feature",
+    "geometry":  {
+                     "type":  "Polygon",
+                     "coordinates":  [
+                                         [
+                                             [
+                                                 -72.74308640000002,
+                                                 43.4274285
+                                             ],
+                                             [
+                                                 -72.74806460000003,
+                                                 43.42050910000001
+                                             ],
+                                             [
+                                                 -72.7589651,
+                                                 43.406449499999994
+                                             ],
+                                             [
+                                                 -72.74969530000003,
+                                                 43.39276080000001
+                                             ],
+                                             [
+                                                 -72.7296968,
+                                                 43.387583899999996
+                                             ],
+                                             [
+                                                 -72.7130885,
+                                                 43.3982803
+                                             ],
+                                             [
+                                                 -72.71038490000002,
+                                                 43.4090683
+                                             ],
+                                             [
+                                                 -72.7109428,
+                                                 43.4191064
+                                             ],
+                                             [
+                                                 -72.716908,
+                                                 43.4270234
+                                             ],
+                                             [
+                                                 -72.72420360000004,
+                                                 43.42717920000001
+                                             ],
+                                             [
+                                                 -72.74308640000002,
+                                                 43.4274285
+                                             ]
+                                         ]
+                                     ]
+                 }
+}

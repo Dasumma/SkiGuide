@@ -1,0 +1,1051 @@
+[
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "chair_lift",
+                           "status":  "operating",
+                           "name":  "Thunderbolt Triple",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  3,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  false,
+                           "heating":  false,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791582"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "16a4a6beb85de29d8e2f2e8bde1129a7dae9fc5a"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.925508,
+                                                 41.5826201,
+                                                 62
+                                             ],
+                                             [
+                                                 -72.92585879999997,
+                                                 41.5825967,
+                                                 64.1
+                                             ],
+                                             [
+                                                 -72.92664860000002,
+                                                 41.582544,
+                                                 75.6
+                                             ],
+                                             [
+                                                 -72.92756560000004,
+                                                 41.5824828,
+                                                 92.3
+                                             ],
+                                             [
+                                                 -72.9284432,
+                                                 41.5824242,
+                                                 113.3
+                                             ],
+                                             [
+                                                 -72.9291223,
+                                                 41.582378900000016,
+                                                 125.7
+                                             ],
+                                             [
+                                                 -72.92973679999997,
+                                                 41.58233780000001,
+                                                 130.8
+                                             ],
+                                             [
+                                                 -72.93069430000003,
+                                                 41.58227390000001,
+                                                 140.5
+                                             ],
+                                             [
+                                                 -72.93120920000005,
+                                                 41.5822396,
+                                                 145
+                                             ],
+                                             [
+                                                 -72.9315308,
+                                                 41.58221810000001,
+                                                 150.2
+                                             ],
+                                             [
+                                                 -72.93188340000003,
+                                                 41.5821946,
+                                                 153.7
+                                             ],
+                                             [
+                                                 -72.9323676,
+                                                 41.582162300000014,
+                                                 163
+                                             ],
+                                             [
+                                                 -72.9325161,
+                                                 41.58215240000001,
+                                                 166.4
+                                             ],
+                                             [
+                                                 -72.9327285,
+                                                 41.58213820000002,
+                                                 170.9
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "magic_carpet",
+                           "status":  "operating",
+                           "name":  "Snowflake Carpet",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  null,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  null,
+                           "heating":  null,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791583"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "ca5a1dc6634b467bf1a33c228ff89e5df6c116ce"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.9258041,
+                                                 41.581241599999984,
+                                                 60
+                                             ],
+                                             [
+                                                 -72.92647509999998,
+                                                 41.581061299999995,
+                                                 70.8
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "magic_carpet",
+                           "status":  "operating",
+                           "name":  "Glacier Conveyor",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  null,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  null,
+                           "heating":  null,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791584"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "c5f957587dd6d194cd45bb6e9d416020c4ddc384"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.92551340000003,
+                                                 41.5833441,
+                                                 60.5
+                                             ],
+                                             [
+                                                 -72.9256985,
+                                                 41.5833401,
+                                                 62.5
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "chair_lift",
+                           "status":  "operating",
+                           "name":  "Stardust Triple",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  3,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  false,
+                           "heating":  false,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791586"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "2c16b9264ef689b7f485778dfd8674ebaa164e56"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.9253846,
+                                                 41.58188139999998,
+                                                 59.4
+                                             ],
+                                             [
+                                                 -72.9266661,
+                                                 41.581727099999995,
+                                                 72
+                                             ],
+                                             [
+                                                 -72.92743920000002,
+                                                 41.5816339,
+                                                 84.4
+                                             ],
+                                             [
+                                                 -72.9282302,
+                                                 41.5815387,
+                                                 102.8
+                                             ],
+                                             [
+                                                 -72.9289693,
+                                                 41.581449699999986,
+                                                 114.2
+                                             ],
+                                             [
+                                                 -72.92956340000003,
+                                                 41.5813781,
+                                                 124.6
+                                             ],
+                                             [
+                                                 -72.92992170000002,
+                                                 41.5813349,
+                                                 129
+                                             ],
+                                             [
+                                                 -72.93090330000003,
+                                                 41.5812167,
+                                                 152.2
+                                             ],
+                                             [
+                                                 -72.93133390000003,
+                                                 41.5811649,
+                                                 154.7
+                                             ],
+                                             [
+                                                 -72.9322405,
+                                                 41.5810557,
+                                                 160.3
+                                             ],
+                                             [
+                                                 -72.9328719,
+                                                 41.5809796,
+                                                 168.9
+                                             ],
+                                             [
+                                                 -72.9329807,
+                                                 41.580966499999995,
+                                                 168.5
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "chair_lift",
+                           "status":  "operating",
+                           "name":  "Avalanche Double",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  2,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  false,
+                           "heating":  false,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791587"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "7054c10a5f723f20fab4ee771e87197c1e1bdfcc"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.92549460000002,
+                                                 41.582110100000016,
+                                                 62.4
+                                             ],
+                                             [
+                                                 -72.9269302,
+                                                 41.5819608,
+                                                 78.9
+                                             ],
+                                             [
+                                                 -72.9279472,
+                                                 41.5818551,
+                                                 97
+                                             ],
+                                             [
+                                                 -72.9289865,
+                                                 41.58174699999999,
+                                                 115.5
+                                             ],
+                                             [
+                                                 -72.92985940000003,
+                                                 41.5816562,
+                                                 131.6
+                                             ],
+                                             [
+                                                 -72.93069120000003,
+                                                 41.581569699999996,
+                                                 150.4
+                                             ],
+                                             [
+                                                 -72.93144290000002,
+                                                 41.581491599999985,
+                                                 159.9
+                                             ],
+                                             [
+                                                 -72.93276879999998,
+                                                 41.5813537,
+                                                 172.6
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "chair_lift",
+                           "status":  "operating",
+                           "name":  "Northstar Triple",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  3,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  false,
+                           "heating":  false,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/143791590"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "89b755aff5f86b0d2c7cfdfaae89b573268724e1"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.9254276,
+                                                 41.580786,
+                                                 70.6
+                                             ],
+                                             [
+                                                 -72.92578139999996,
+                                                 41.580658,
+                                                 71.2
+                                             ],
+                                             [
+                                                 -72.92617729999998,
+                                                 41.5805148,
+                                                 73.9
+                                             ],
+                                             [
+                                                 -72.9267869,
+                                                 41.5802943,
+                                                 81.7
+                                             ],
+                                             [
+                                                 -72.9273344,
+                                                 41.5800963,
+                                                 86
+                                             ],
+                                             [
+                                                 -72.92770209999998,
+                                                 41.5799633,
+                                                 92.2
+                                             ]
+                                         ]
+                     }
+    },
+    {
+        "type":  "Feature",
+        "properties":  {
+                           "type":  "lift",
+                           "liftType":  "rope_tow",
+                           "status":  "operating",
+                           "name":  "Whoopee Conveyor",
+                           "oneway":  null,
+                           "ref":  null,
+                           "refFRCAIRN":  null,
+                           "description":  null,
+                           "occupancy":  null,
+                           "capacity":  null,
+                           "duration":  null,
+                           "bubble":  null,
+                           "heating":  null,
+                           "detachable":  null,
+                           "skiAreas":  [
+                                            {
+                                                "type":  "Feature",
+                                                "properties":  {
+                                                                   "id":  "c39bde5f3f06e67d7196e9f3afdbae89c6ca966b",
+                                                                   "name":  "Mount Southington Ski Area",
+                                                                   "activities":  [
+                                                                                      "downhill"
+                                                                                  ],
+                                                                   "type":  "skiArea",
+                                                                   "status":  "operating"
+                                                               },
+                                                "geometry":  {
+                                                                 "type":  "Polygon",
+                                                                 "coordinates":  [
+                                                                                     [
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92450740000002,
+                                                                                             41.579938700000014
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9242861,
+                                                                                             41.5810932
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9244027,
+                                                                                             41.5819682
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9249485,
+                                                                                             41.583889199999994
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9261317,
+                                                                                             41.5836311
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.9288553,
+                                                                                             41.583437499999995
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.933822,
+                                                                                             41.583041099999996
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93361240000003,
+                                                                                             41.5789296
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.93182500000003,
+                                                                                             41.5790713
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.928843,
+                                                                                             41.5793076
+                                                                                         ],
+                                                                                         [
+                                                                                             -72.92468970000003,
+                                                                                             41.5798423
+                                                                                         ]
+                                                                                     ]
+                                                                                 ]
+                                                             }
+                                            }
+                                        ],
+                           "sources":  [
+                                           {
+                                               "type":  "openstreetmap",
+                                               "id":  "way/255839086"
+                                           }
+                                       ],
+                           "websites":  [
+
+                                        ],
+                           "wikidataID":  null,
+                           "places":  [
+                                          {
+                                              "iso3166_2":  "US-CT",
+                                              "localized":  {
+                                                                "en":  {
+                                                                           "region":  "Connecticut",
+                                                                           "country":  "United States",
+                                                                           "locality":  null
+                                                                       }
+                                                            },
+                                              "iso3166_1Alpha2":  "US"
+                                          }
+                                      ],
+                           "id":  "820189079d65874fe3f8064ce4a2cfdb8d81d00e"
+                       },
+        "geometry":  {
+                         "type":  "LineString",
+                         "coordinates":  [
+                                             [
+                                                 -72.9260511,
+                                                 41.5833237,
+                                                 64.8
+                                             ],
+                                             [
+                                                 -72.92679360000002,
+                                                 41.58333990000001,
+                                                 76.3
+                                             ]
+                                         ]
+                     }
+    }
+]
