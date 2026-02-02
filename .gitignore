@@ -1,11 +1,16 @@
 /*.geojson
-
 GeoJsons/*
+
 !GeoJsons/United States/
 GeoJsons/United States/*
 
-#Push Vermont and CT to Git
-!GeoJsons/United States/*Vermont.geojson
-!GeoJsons/United States/*Connecticut.geojson
+!GeoJsons/United States/Vermont
+GeoJsons/United States/Vermont/*
 
-runs.geojson
+!GeoJsons/United States/Connecticut
+GeoJsons/United States/Connecticut/*
+
+#Push Vermont and CT to Git
+#!GeoJsons/United States/Vermont/*Okemo*.geojson
+#!GeoJsons/United States/Vermont/*Stowe*.geojson
+#!GeoJsons/United States/Connecticut/*Southington*.geojson
