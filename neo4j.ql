@@ -35,7 +35,6 @@ MERGE (p:Point {id: apoc.text.join(toStringList(coord), ";")})
   SET p.lat = coord[0],
       p.lon = coord[1],
       p.ele = coord[2],
-      p.sequence = i // Preserve order for safety
 MERGE (SkiRun)-[:HAS_POINT]->(p)
 WITH SkiArea, SkiRun, p ORDER BY p.sequence
 WITH SkiArea, SkiRun, collect(p) AS pointList
@@ -73,32 +72,3 @@ WITH SkiLift, p ORDER BY p.sequence
 WITH SkiLift, collect(p) AS pointList
 CALL apoc.nodes.link(pointList, 'SEGMENT', {avoidDuplicates: true})
 RETURN SkiLift.name, size(pointList) AS pointsLinked
-
-
-
-
-
-
-// Find potential connections between different runs
-MATCH (runA:SkiRun)-[:HAS_POINT]->(lastP:Point)
-WHERE NOT (lastP)-[:SEGMENT]->(:Point {sequence: lastP.sequence + 1}) // lastP is the end of Run A
-
-MATCH (runB:SkiRun)-[:HAS_POINT]->(firstP:Point)
-WHERE runA <> runB
-
-// Downhill constraint: Run A must end higher than or equal to where Run B starts
-WITH lastP, firstP, runA, runB
-WHERE lastP.ele >= firstP.ele
-
-// Distance constraint: Use point.distance() for meters (WGS84)
-WITH lastP, firstP, runA, runB,
-     point({latitude: lastP.lat, longitude: lastP.lon}) AS p1,
-     point({latitude: firstP.lat, longitude: firstP.lon}) AS p2
-WHERE point.distance(p1, p2) <= 10
-
-// Create the connecting relationship
-MERGE (lastP)-[c:CONNECTS_TO]->(firstP)
-SET c.distance = point.distance(p1, p2),
-    c.type = "downhill_transition"
-
-RETURN runA.name AS FromRun, runB.name AS ToRun, c.distance AS GapDistance
