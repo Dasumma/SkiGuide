@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------
+MATCH (N) DETACH DELETE N;
 // 1. CREATE SKI AREA
 // -------------------------------------------------------------------------
 CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/ski_areas_Mount%20Southington%20Ski%20Area.geojson") YIELD value
@@ -8,7 +8,6 @@ SET s.name = feature.properties.name,
     s.maxElevation = feature.statistics.maxElevation,
     s.minElevation = feature.statistics.minElevation;
 
-// -------------------------------------------------------------------------
 // 2. CREATE SKI RUNS (METADATA)
 // -------------------------------------------------------------------------
 CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/runs_Mount%20Southington%20Ski%20Area.geojson") YIELD value
@@ -23,8 +22,7 @@ UNWIND feature.properties.skiAreas as SkiArea
 MATCH (s:SkiArea {id: SkiArea.properties.id})
 MERGE (s)-[:HAS_FEATURE]->(r);
 
-// -------------------------------------------------------------------------
-// 3. HANDLE LINESTRINGS (TRAILS)
+// 3. Create LineString Runs
 // -------------------------------------------------------------------------
 CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/runs_Mount%20Southington%20Ski%20Area.geojson") YIELD value
 UNWIND value.features as feature
@@ -37,29 +35,26 @@ MERGE (p:Point {id: apoc.text.join(toStringList(coord), ";")})
       p.location = point({longitude: toFloat(coord[0]), latitude: toFloat(coord[1]), height: toFloat(coord[2])})
 MERGE (r)-[:HAS_POINT]->(p)
 WITH r, p ORDER BY i
-WITH r, collect(p) AS pointList
+WITH r, collect(p) AS pointList, p
 CALL apoc.nodes.link(pointList, 'SEGMENT', {avoidDuplicates: true});
 
-
-// -------------------------------------------------------------------------
-// 4. HANDLE POLYGONS (GLADES WITH SYMMETRIC SKELETON)
+// 3.1. CREATE ENTRY AND EXITS
 // -------------------------------------------------------------------------
 CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/runs_Mount%20Southington%20Ski%20Area.geojson") YIELD value
 UNWIND value.features as feature
 MATCH (r:SkiRun {id: feature.properties.id})
-WHERE feature.geometry.type = 'Polygon'
-UNWIND range(0, size(feature.geometry.coordinates[0]) - 1) AS i
-WITH r, i, feature.geometry.coordinates[0][i] AS coord
-MERGE (p:Point {id: apoc.text.join(toStringList(coord), ";")})
-  SET p.lon = toFloat(coord[0]), p.lat = toFloat(coord[1]), p.alt = toFloat(coord[2]),
-      p.location = point({longitude: toFloat(coord[0]), latitude: toFloat(coord[1]), height: toFloat(coord[2])})
-MERGE (r)-[:HAS_POINT]->(p)
-WITH r, p ORDER BY i
-WITH r, collect(p) AS pointList
-CALL apoc.nodes.link(pointList, 'POLYGON_SEGMENT', {avoidDuplicates: true});
+WHERE feature.geometry.type = 'LineString'
+WITH r, feature.geometry.coordinates as coords
+WITH r, coords, apoc.text.join(toStringList(coords[0]), ";") as EntryPoint
+MERGE (r)-[:HAS_ENTRY]->(p:Point {id: EntryPoint})
+  SET p.lon = toFloat(coords[0][0]), p.lat = toFloat(coords[0][1]), p.alt = toFloat(coords[0][2]),
+      p.location = point({longitude: toFloat(coords[0][0]), latitude: toFloat(coords[0][1]), height: toFloat(coords[0][2])})
+WITH r, coords, apoc.text.join(toStringList(coords[-1]), ";") as ExitPoint
+MERGE (r)-[:HAS_EXIT]->(p:Point {id: ExitPoint})
+  SET p.lon = toFloat(coords[-1][0]), p.lat = toFloat(coords[-1][1]), p.alt = toFloat(coords[-1][2]),
+      p.location = point({longitude: toFloat(coords[-1][0]), latitude: toFloat(coords[-1][1]), height: toFloat(coords[-1][2])});
 
-// -------------------------------------------------------------------------
-// 5. CREATE SKI LIFTS
+// 4. CREATE SKI LIFTS
 // -------------------------------------------------------------------------
 CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/lifts_Mount%20Southington%20Ski%20Area.geojson") YIELD value
 UNWIND value.features as feature
@@ -80,7 +75,51 @@ WITH l, p ORDER BY i
 WITH l, collect(p) AS pointList
 CALL apoc.nodes.link(pointList, 'SEGMENT',  {avoidDuplicates: true});
 
+// 4.1. CREATE ENTRY AND EXITS
 // -------------------------------------------------------------------------
+CALL apoc.load.json("https://raw.githubusercontent.com/Dasumma/SkiGuide/refs/heads/local_mountains/GeoJsons/United%20States/Connecticut/lifts_Mount%20Southington%20Ski%20Area.geojson") YIELD value
+UNWIND value.features as feature
+MATCH (r:SkiLift {id: feature.properties.id})
+WITH r, feature.geometry.coordinates as coords
+WITH r, coords, apoc.text.join(toStringList(coords[0]), ";") as EntryPoint
+MERGE (r)-[:HAS_ENTRY]->(p:Point {id: EntryPoint})
+  SET p.lon = toFloat(coords[0][0]), p.lat = toFloat(coords[0][1]), p.alt = toFloat(coords[0][2]),
+      p.location = point({longitude: toFloat(coords[0][0]), latitude: toFloat(coords[0][1]), height: toFloat(coords[0][2])})
+WITH r, coords, apoc.text.join(toStringList(coords[-1]), ";") as ExitPoint
+MERGE (r)-[:HAS_EXIT]->(p:Point {id: ExitPoint})
+  SET p.lon = toFloat(coords[-1][0]), p.lat = toFloat(coords[-1][1]), p.alt = toFloat(coords[-1][2]),
+      p.location = point({longitude: toFloat(coords[-1][0]), latitude: toFloat(coords[-1][1]), height: toFloat(coords[-1][2])});
+
+// 5. CONNECT SKI RUNS TO SKI LIFTS
+
+// 5.1. Connect Lift Tops to Trail Entries (Starting a run)
+MATCH (l:SkiLift)-[:HAS_EXIT]->(liftTop:Point)
+MATCH (r:SkiRun)-[:HAS_ENTRY]->(trailStart:Point)
+WITH liftTop, trailStart, r, l, 
+     point.distance(liftTop.location, trailStart.location) AS dist
+WHERE dist < 50
+WITH liftTop, trailStart, r, l, dist ORDER BY dist ASC
+WITH liftTop, r, l, collect({node: trailStart, d: dist})[0] AS closestTrail
+WITH liftTop, closestTrail.node as closestTrailNode, closestTrail.d as closestTrailDist
+MERGE (liftTop)-[c:CONNECTION]->(closestTrailNode)
+SET c.distance = closestTrailDist, 
+    c.type = "Lift-to-Run",
+    c.slope = 0;
+
+// 5.2. Connect Trail Exits to Lift Entries (Getting back on the lift)
+MATCH (r:SkiRun)-[:HAS_EXIT]->(trailEnd:Point)
+MATCH (l:SkiLift)-[:HAS_ENTRY]->(liftBottom:Point)
+WITH trailEnd, liftBottom, r, l, 
+     point.distance(trailEnd.location, liftBottom.location) AS dist
+WHERE dist < 50 
+WITH trailEnd, liftBottom, r, l, dist ORDER BY dist ASC
+WITH trailEnd, r, l, collect({node: liftBottom, d: dist})[0] AS closestLift
+WITH trailEnd, closestLift.node as closestLiftNode, closestLift.d as closestLiftDist
+MERGE (trailEnd)-[c:CONNECTION]->(closestLiftNode)
+SET c.distance = closestLiftDist, 
+    c.type = "Run-to-Lift",
+    c.slope = 0;
+
 // 6. CALCULATE DISTANCE AND SLOPE FOR ALL EDGES
 // -------------------------------------------------------------------------
 MATCH (p1:Point)-[rel:(SEGMENT|POLYGON_SEGMENT)]->(p2:Point)
@@ -90,66 +129,3 @@ SET rel.distance = dist,
         WHEN dist > 0 THEN (abs(p1.alt - p2.alt) / dist) * 100 
         ELSE 0 
     END;
-
-
-//Query to get all lifts:
-MATCH (p:Point)-[r:POLYGON_SEGMENT|SEGMENT]->(q:Point)
-WHERE (:SkiLift)-[:HAS_POINT]->(q) AND (:SkiLift)-[:HAS_POINT]->(p)
-RETURN p, r, q LIMIT 20000
-
-
-//Query to get all runs:
-MATCH (p:Point)-[r:POLYGON_SEGMENT|SEGMENT]->(q:Point)
-WHERE (:SkiRun)-[:HAS_POINT]->(q) AND (:SkiRun)-[:HAS_POINT]->(p)
-RETURN p, r, q LIMIT 20000
-
-
-//Connect lifts to closest trails:
-MATCH (l:SkiLift)-[:HAS_POINT]->(p:Point {LiftTop: TRUE})
-MATCH (r:SkiRun)-[:HAS_POINT]->(sp:Point {RunTop: TRUE})
-WHERE abs(p.lat - sp.lat) + abs(p.lon - sp.lon) < .0004
-MERGE (p)-[:SEGMENT]->(sp)
-RETURN *
-
-//Connect trails to closest lifts:
-MATCH (l:SkiLift)-[:HAS_POINT]->(p:Point {LiftBottom: TRUE})
-MATCH (r:SkiRun)-[:HAS_POINT]->(sp:Point {RunBottom: TRUE})
-WHERE abs(p.lat - sp.lat) + abs(p.lon - sp.lon) < .0004
-MERGE (sp)-[:SEGMENT]->(p)
-RETURN *
-
-
-MATCH ()-[:HAS_POINT]->(p:Point)
-
-
-//Set Top, Middle, and Bottom 
-MATCH (:SkiLift)-[:HAS_POINT]->(p:Point)
-WHERE NOT (:Point)-[:SEGMENT]->(p)
-SET p.LiftBottom = TRUE
-WITH 1 as test
-MATCH (:SkiLift)-[:HAS_POINT]->(p:Point)
-MATCH (:SkiLift)-[:HAS_POINT]->(q:Point)
-WHERE (p)-[:SEGMENT]->(q)
-  AND p.LiftBottom IS NULL
-  AND q.LiftBottom IS NULL
-SET p.LiftMiddle = TRUE
-WITH 1 as test
-MATCH (:SkiLift)-[:HAS_POINT]-(p:Point)
-WHERE p.LiftBottom IS NULL and p.LiftMiddle IS NULL
-SET p.LiftTop = TRUE
-
-//Set Top, Middle, and Bottom 
-MATCH (:SkiRun)-[:HAS_POINT]->(p:Point)
-WHERE NOT (:Point)-[:SEGMENT]->(p)
-SET p.RunTop = TRUE
-WITH 1 as test
-MATCH (:SkiRun)-[:HAS_POINT]->(p:Point)
-MATCH (:SkiRun)-[:HAS_POINT]->(q:Point)
-WHERE (p)-[:SEGMENT]->(q)
-  AND p.RunTop IS NULL
-  AND q.RunTop IS NULL
-SET p.RunMiddle = TRUE
-WITH 1 as test
-MATCH (:SkiRun)-[:HAS_POINT]-(p:Point)
-WHERE p.RunTop IS NULL and p.RunMiddle IS NULL
-SET p.RunBottom = TRUE
