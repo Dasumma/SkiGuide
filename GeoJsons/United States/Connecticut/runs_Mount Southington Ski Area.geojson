@@ -2173,7 +2173,7 @@
                 "uses": [
                     "downhill"
                 ],
-                "name": null,
+                "name": "Intermediate",
                 "ref": null,
                 "description": null,
                 "difficulty": "intermediate",
