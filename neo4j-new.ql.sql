@@ -30,12 +30,13 @@ MATCH (r:SkiRun {id: feature.properties.id})
 WHERE feature.geometry.type = 'LineString'
 UNWIND range(0, size(feature.geometry.coordinates) - 1) AS i
 WITH r, i, feature.geometry.coordinates[i] AS coord
-MERGE (p:Point {id: apoc.text.join(toStringList(coord), ";")})
+WITH r, i, coord, toString(round(toFloat(coord[0]), 6)) + ";" + toString(round(toFloat(coord[1]), 6)) AS coordKey
+MERGE (p:Point {id: coordKey})
   SET p.lon = toFloat(coord[0]), p.lat = toFloat(coord[1]), p.alt = toFloat(coord[2]),
       p.location = point({longitude: toFloat(coord[0]), latitude: toFloat(coord[1]), height: toFloat(coord[2])})
 MERGE (r)-[:HAS_POINT]->(p)
 WITH r, p ORDER BY i
-WITH r, collect(p) AS pointList, p
+WITH r, collect(p) AS pointList
 CALL apoc.nodes.link(pointList, 'SEGMENT', {avoidDuplicates: true});
 
 // 3.1. CREATE ENTRY AND EXITS
@@ -45,14 +46,18 @@ UNWIND value.features as feature
 MATCH (r:SkiRun {id: feature.properties.id})
 WHERE feature.geometry.type = 'LineString'
 WITH r, feature.geometry.coordinates as coords
-WITH r, coords, apoc.text.join(toStringList(coords[0]), ";") as EntryPoint
-MERGE (r)-[:HAS_ENTRY]->(p:Point {id: EntryPoint})
-  SET p.lon = toFloat(coords[0][0]), p.lat = toFloat(coords[0][1]), p.alt = toFloat(coords[0][2]),
-      p.location = point({longitude: toFloat(coords[0][0]), latitude: toFloat(coords[0][1]), height: toFloat(coords[0][2])})
-WITH r, coords, apoc.text.join(toStringList(coords[-1]), ";") as ExitPoint
-MERGE (r)-[:HAS_EXIT]->(p:Point {id: ExitPoint})
-  SET p.lon = toFloat(coords[-1][0]), p.lat = toFloat(coords[-1][1]), p.alt = toFloat(coords[-1][2]),
-      p.location = point({longitude: toFloat(coords[-1][0]), latitude: toFloat(coords[-1][1]), height: toFloat(coords[-1][2])});
+WITH r, coords, coords[0] AS coord
+WITH r, coords, coord, toString(round(toFloat(coord[0]), 6)) + ";" + toString(round(toFloat(coord[1]), 6)) AS coordKey
+MATCH (p:Point {id: coordKey})
+MERGE (r)-[:HAS_ENTRY]->(p)
+  SET p.lon = toFloat(coord[0]), p.lat = toFloat(coord[1]), p.alt = toFloat(coord[2]),
+      p.location = point({longitude: toFloat(coord[0]), latitude: toFloat(coord[1]), height: toFloat(coord[2])})
+WITH r, coords, coords[-1] AS coord
+WITH r, coords, coord, toString(round(toFloat(coord[0]), 6)) + ";" + toString(round(toFloat(coord[1]), 6)) AS coordKey
+MATCH (p:Point {id: coordKey})
+MERGE (r)-[:HAS_EXIT]->(p)
+  SET p.lon = toFloat(coord[0]), p.lat = toFloat(coord[1]), p.alt = toFloat(coord[2]),
+      p.location = point({longitude: toFloat(coord[0]), latitude: toFloat(coord[1]), height: toFloat(coord[2])});
 
 // 4. CREATE SKI LIFTS
 // -------------------------------------------------------------------------
@@ -64,7 +69,23 @@ SET l.name = feature.properties.name,
     l.status = feature.properties.status
 MERGE (s)-[:HAS_FEATURE]->(l)
 
-WITH feature, l
+WITH feature, l, feature.geometry.coordinates AS coords
+WITH feature, l, coords[0] AS EntryCoord, coords[-1] AS ExitCoord,
+    toString(round(toFloat(coords[0][0]), 6)) + ";" + toString(round(toFloat(coords[0][1]), 6)) AS entryCoordKey,
+    toString(round(toFloat(coords[-1][0]), 6)) + ";" + toString(round(toFloat(coords[-1][1]), 6)) AS exitCoordKey
+MERGE (entryPoint:Point {id: entryCoordKey})
+  SET entryPoint.lon = toFloat(EntryCoord[0]), entryPoint.lat = toFloat(EntryCoord[1]), entryPoint.alt = toFloat(EntryCoord[2]),
+      entryPoint.location = point({longitude: toFloat(EntryCoord[0]), latitude: toFloat(EntryCoord[1]), height: toFloat(EntryCoord[2])})
+MERGE (exitPoint:Point {id: exitCoordKey})
+  SET exitPoint.lon = toFloat(ExitCoord[0]), exitPoint.lat = toFloat(ExitCoord[1]), exitPoint.alt = toFloat(ExitCoord[2]),
+      exitPoint.location = point({longitude: toFloat(ExitCoord[0]), latitude: toFloat(ExitCoord[1]), height: toFloat(ExitCoord[2])})
+MERGE (l)-[:HAS_ENTRY]->(entryPoint)
+MERGE (l)-[:HAS_POINT]->(entryPoint)
+MERGE (l)-[:HAS_EXIT]->(exitPoint)
+MERGE (l)-[:HAS_POINT]->(exitPoint)
+MERGE (entryPoint)-[:SEGMENT]->(exitPoint);
+
+/*WITH feature, l
 UNWIND range(0, size(feature.geometry.coordinates) - 1) AS i
 WITH l, i, feature.geometry.coordinates[i] AS coord
 MERGE (p:Point {id: apoc.text.join(toStringList(coord), ";")})
@@ -82,13 +103,14 @@ UNWIND value.features as feature
 MATCH (r:SkiLift {id: feature.properties.id})
 WITH r, feature.geometry.coordinates as coords
 WITH r, coords, apoc.text.join(toStringList(coords[0]), ";") as EntryPoint
-MERGE (r)-[:HAS_ENTRY]->(p:Point {id: EntryPoint})
-  SET p.lon = toFloat(coords[0][0]), p.lat = toFloat(coords[0][1]), p.alt = toFloat(coords[0][2]),
-      p.location = point({longitude: toFloat(coords[0][0]), latitude: toFloat(coords[0][1]), height: toFloat(coords[0][2])})
-WITH r, coords, apoc.text.join(toStringList(coords[-1]), ";") as ExitPoint
-MERGE (r)-[:HAS_EXIT]->(p:Point {id: ExitPoint})
-  SET p.lon = toFloat(coords[-1][0]), p.lat = toFloat(coords[-1][1]), p.alt = toFloat(coords[-1][2]),
-      p.location = point({longitude: toFloat(coords[-1][0]), latitude: toFloat(coords[-1][1]), height: toFloat(coords[-1][2])});
+MERGE (r)-[:HAS_ENTRY]->(p1:Point {id: EntryPoint})
+  SET p1.lon = toFloat(coords[0][0]), p1.lat = toFloat(coords[0][1]), p1.alt = toFloat(coords[0][2]),
+      p1.location = point({longitude: toFloat(coords[0][0]), latitude: toFloat(coords[0][1]), height: toFloat(coords[0][2])})
+WITH r, coords, EntryPoint, apoc.text.join(toStringList(coords[-1]), ";") as ExitPoint
+MERGE (r)-[:HAS_EXIT]->(p2:Point {id: ExitPoint})
+  SET p2.lon = toFloat(coords[-1][0]), p2.lat = toFloat(coords[-1][1]), p2.alt = toFloat(coords[-1][2]),
+      p2.location = point({longitude: toFloat(coords[-1][0]), latitude: toFloat(coords[-1][1]), height: toFloat(coords[-1][2])})
+MERGE (p1)-[:SEGMENT]->(p2);*/
 
 // 5. CONNECT SKI RUNS TO SKI LIFTS
 
@@ -97,12 +119,10 @@ MATCH (l:SkiLift)-[:HAS_EXIT]->(liftTop:Point)
 MATCH (r:SkiRun)-[:HAS_ENTRY]->(trailStart:Point)
 WITH liftTop, trailStart, r, l, 
      point.distance(liftTop.location, trailStart.location) AS dist
-WHERE dist < 50
-WITH liftTop, trailStart, r, l, dist ORDER BY dist ASC
-WITH liftTop, r, l, collect({node: trailStart, d: dist})[0] AS closestTrail
-WITH liftTop, closestTrail.node as closestTrailNode, closestTrail.d as closestTrailDist
-MERGE (liftTop)-[c:CONNECTION]->(closestTrailNode)
-SET c.distance = closestTrailDist, 
+WHERE dist < 40
+AND liftTop <> trailStart
+MERGE (liftTop)-[c:CONNECTION]->(trailStart)
+SET c.distance = dist, 
     c.type = "Lift-to-Run",
     c.slope = 0;
 
@@ -111,21 +131,22 @@ MATCH (r:SkiRun)-[:HAS_EXIT]->(trailEnd:Point)
 MATCH (l:SkiLift)-[:HAS_ENTRY]->(liftBottom:Point)
 WITH trailEnd, liftBottom, r, l, 
      point.distance(trailEnd.location, liftBottom.location) AS dist
-WHERE dist < 50 
-WITH trailEnd, liftBottom, r, l, dist ORDER BY dist ASC
-WITH trailEnd, r, l, collect({node: liftBottom, d: dist})[0] AS closestLift
-WITH trailEnd, closestLift.node as closestLiftNode, closestLift.d as closestLiftDist
-MERGE (trailEnd)-[c:CONNECTION]->(closestLiftNode)
-SET c.distance = closestLiftDist, 
+WHERE dist < 40
+    AND trailEnd <> liftBottom
+MERGE (trailEnd)-[c:CONNECTION]->(liftBottom)
+SET c.distance = dist, 
     c.type = "Run-to-Lift",
     c.slope = 0;
 
 // 6. CALCULATE DISTANCE AND SLOPE FOR ALL EDGES
-// -------------------------------------------------------------------------
-MATCH (p1:Point)-[rel:(SEGMENT|POLYGON_SEGMENT)]->(p2:Point)
+// -------------------------------------------------------------------------6
+MATCH (p1:Point)-[rel:(SEGMENT|CONNECTION)]->(p2:Point)
 WITH rel, p1, p2, point.distance(p1.location, p2.location) AS dist
 SET rel.distance = dist,
     rel.slope = CASE 
         WHEN dist > 0 THEN (abs(p1.alt - p2.alt) / dist) * 100 
         ELSE 0 
     END;
+
+// 7. CREATE CALLABLE FUNCTIONS
+// -------------------------------------------------------------------------

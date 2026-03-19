@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/skiResortListLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ski_resort_list" />
+
+    <AutoCompleteTextView
+        android:id="@+id/skiResortList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:hint="@string/resort_search_hint"/>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_map" />
+
+    <Button
+        android:id="@+id/buttonUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_user" />
+
+    <Button
+        android:id="@+id/buttonAPI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_api" />
 </LinearLayout>

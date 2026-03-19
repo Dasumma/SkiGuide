@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Mobile Ski Nav</string>
     <string name="ski_guide">Ski Guide</string>
+    <string name="go_to_map">Go to Map</string>
+    <string name="go_to_api">Go to API Test</string>
+    <string name="go_to_user">Go to User Settings</string>
+    <string name="ski_resort_list">Select Ski Resort:</string>
+    <string name="resort_search_hint">Search</string>
 </resources>

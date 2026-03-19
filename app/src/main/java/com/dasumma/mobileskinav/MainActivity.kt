@@ -1,91 +1,118 @@
 package com.dasumma.mobileskinav
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.mapbox.geojson.Point
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import com.dasumma.mobileskinav.ui.ApiActivity
+import com.dasumma.mobileskinav.ui.MapActivity
+import com.dasumma.mobileskinav.ui.UserActivity
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
-import com.dasumma.mobileskinav.ui.theme.MobileSkiNavTheme
-import com.mapbox.android.core.permissions.PermissionsListener
-import com.mapbox.android.core.permissions.PermissionsManager
+import com.mapbox.maps.extension.style.StyleContract
+import com.mapbox.maps.extension.style.atmosphere.generated.atmosphere
+import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.eq
+import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.get
+import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.literal
+import com.mapbox.maps.extension.style.layers.generated.SymbolLayer
+import com.mapbox.maps.extension.style.layers.generated.fillLayer
+import com.mapbox.maps.extension.style.layers.generated.lineLayer
+import com.mapbox.maps.extension.style.layers.generated.skyLayer
+import com.mapbox.maps.extension.style.layers.generated.symbolLayer
+import com.mapbox.maps.extension.style.layers.properties.generated.LineCap
+import com.mapbox.maps.extension.style.layers.properties.generated.LineJoin
+import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
+import com.mapbox.maps.extension.style.layers.properties.generated.SkyType
+import com.mapbox.maps.extension.style.layers.properties.generated.SymbolPlacement
+import com.mapbox.maps.extension.style.projection.generated.projection
+import com.mapbox.maps.extension.style.sources.generated.geoJsonSource
+import com.mapbox.maps.extension.style.sources.generated.rasterDemSource
+import com.mapbox.maps.extension.style.style
+import com.mapbox.maps.extension.style.terrain.generated.terrain
+import com.mapbox.maps.plugin.animation.MapAnimationOptions
+import com.mapbox.maps.plugin.animation.camera
+import com.mapbox.maps.plugin.attribution.attribution
+import com.mapbox.maps.plugin.compass.compass
+import com.mapbox.maps.plugin.logo.logo
+import com.mapbox.maps.plugin.scalebar.scalebar
+import com.mapbox.maps.plugin.viewport.viewport
+import com.mapbox.navigation.core.replay.route.ReplayRouteMapper
+import com.mapbox.navigation.ui.maps.camera.NavigationCamera
+import com.mapbox.navigation.ui.maps.camera.data.MapboxNavigationViewportDataSource
+import com.mapbox.navigation.ui.maps.location.NavigationLocationProvider
+import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineApi
+import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineView
 
 
-class MainActivity : ComponentActivity(), PermissionsListener {
+class MainActivity : ComponentActivity() {
+    // Activity result launcher for location permissions
+    private val locationPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true -> {
 
-    private lateinit var permissionsManager: PermissionsManager
-    private lateinit var mapView: MapView
+                }
+
+                else -> {
+                    Toast.makeText(
+                        this,
+                        "Location permissions denied. Please enable permissions in settings.",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        permissionsManager = PermissionsManager(this)
-        if (PermissionsManager.areLocationPermissionsGranted(baseContext)) {
-            createContent()
-        } else {
-            permissionsManager = PermissionsManager(this)
-            permissionsManager.requestLocationPermissions(this)
-        }
-        enableEdgeToEdge()
-    }
 
-    fun createContent(){
-        mapView = MapView(this)
-        mapView.mapboxMap.setCamera(
-            CameraOptions.Builder()
-                .center(Point.fromLngLat(-98.0, 39.5))
-                .pitch(0.0)
-                .zoom(2.0)
-                .bearing(0.0)
-                .build()
+        // check/request location permissions
+        if (
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request location permissions
+            locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+        }
+
+        val layout = layoutInflater.inflate(R.layout.activity_main, null)
+
+        val buttonMap = layout.findViewById<Button>(R.id.buttonMap)
+        val buttonUser = layout.findViewById<Button>(R.id.buttonUser)
+        val buttonAPI = layout.findViewById<Button>(R.id.buttonAPI)
+        val textAuto = layout.findViewById<AutoCompleteTextView>(R.id.skiResortList)
+
+        buttonMap.setOnClickListener {  view ->
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
+        buttonUser.setOnClickListener {  view ->
+            val intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
+        }
+        buttonAPI.setOnClickListener {  view ->
+            val intent = Intent(this, ApiActivity::class.java)
+            startActivity(intent)
+        }
+        textAuto.setAdapter(
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                arrayOf("Mount Southington Ski Area", "Okemo Ski Resort", "Stowe Mountain Resort")
+            )
         )
-        setContentView( mapView )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String?>,
-        grantResults: IntArray,
-        deviceId: Int
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
-    }
-
-    override fun onExplanationNeeded(permissionsToExplain: List<String>) {
-
-    }
-
-    override fun onPermissionResult(granted: Boolean) {
-
-        if (granted) {
-            createContent()
-        } else {
-
-        }
-    }
-}
 
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MobileSkiNavTheme {
-        Greeting("Android")
+        setContentView(layout)
     }
 }

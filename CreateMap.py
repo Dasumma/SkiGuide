@@ -5,7 +5,7 @@ import re
 # 1. Load the data
 # Assuming your file is named 'ski_data.csv'
 # If you are copy-pasting the text above, replace 'ski_data.csv' with your filename
-df = pd.read_csv('C:\\Users\\Dasum\\downloads\\neo4j_query_table_data_2026-3-4.csv')
+df = pd.read_csv('C:\\Users\\Dasum\\downloads\\neo4j_query_table_data_2026-3-12.csv')
 
 def extract_coords(node_string):
     """Extracts lat and lon from the (:Point {lat: ..., lon: ...}) string."""
