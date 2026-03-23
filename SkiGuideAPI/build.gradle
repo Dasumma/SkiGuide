@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.apache.jena:jena-fuseki-main:4.10.0'
 	implementation 'org.apache.jena:jena-arq:4.10.0'
+	implementation 'org.apache.jena:jena-tdb2:4.10.0'
 	implementation 'io.micrometer:micrometer-registry-prometheus:1.11.10'
 	implementation('org.apache.jena:jena-fuseki-main:4.10.0') {
 		exclude group: 'org.slf4j', module: 'slf4j-simple'

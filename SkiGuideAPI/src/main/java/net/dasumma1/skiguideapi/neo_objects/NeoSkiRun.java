@@ -8,10 +8,14 @@ public class NeoSkiRun {
     @Id
     private final String id;
     private final String name;
+    private final String difficulty;
+    private final String areaId;
 
-    public NeoSkiRun(String id, String name) {
+    public NeoSkiRun(String id, String name, String difficulty, String areaId) {
         this.id = id;
         this.name = name;
+        this.difficulty = difficulty;
+        this.areaId = areaId;
     }
 
     public String getId() {
@@ -21,4 +25,12 @@ public class NeoSkiRun {
     public String getName() {
         return name;
     } 
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
 }

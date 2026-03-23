@@ -8,10 +8,14 @@ public class NeoSkiLift {
     @Id
     private final String id;
     private final String name;
+    private final String type;
+    private final String areaId;
 
-    public NeoSkiLift(String id, String name) {
+    public NeoSkiLift(String id, String name, String type, String areaId) {
         this.id = id;
         this.name = name;
+        this.type = type;
+        this.areaId = areaId;
     }
 
     public String getId() {
@@ -20,5 +24,13 @@ public class NeoSkiLift {
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getAreaId() {
+        return areaId;
     }
 }

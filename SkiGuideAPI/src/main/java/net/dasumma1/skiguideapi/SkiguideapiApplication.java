@@ -1,9 +1,15 @@
 package net.dasumma1.skiguideapi;
 
+import java.security.cert.CertPathValidatorException.Reason;
+
 import org.apache.jena.fuseki.main.FusekiServer;
 import org.apache.jena.fuseki.main.sys.FusekiModules;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.ReasonerRegistry;
+import org.apache.jena.tdb2.TDB2Factory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,7 +23,11 @@ public class SkiguideapiApplication {
 	}
 
 	private static void startEmbeddedFuseki() {
-		Dataset dataset = DatasetFactory.createTxnMem();
+		Dataset dataset = TDB2Factory.connectDataset("data/tdb2");
+		Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+		InfModel infModel = ModelFactory.createInfModel(reasoner, dataset.getDefaultModel());
+		dataset.setDefaultModel(infModel);
+
 		FusekiServer server = FusekiServer.create()
 				.add("/dataset", dataset)
 				.port(3030)
