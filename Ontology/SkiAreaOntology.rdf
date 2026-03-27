@@ -101,9 +101,18 @@
     
 
 
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficulty -->
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficultyConvention -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficulty">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficultyConvention">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#hasDifficulty -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#hasDifficulty">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
         <rdfs:range>
@@ -111,19 +120,19 @@
                 <owl:oneOf>
                     <rdf:Description>
                         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
-                        <rdf:first>Black</rdf:first>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
                         <rdf:rest>
                             <rdf:Description>
                                 <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
-                                <rdf:first>Blue</rdf:first>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</rdf:first>
                                 <rdf:rest>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
-                                        <rdf:first>Double Black</rdf:first>
+                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</rdf:first>
                                         <rdf:rest>
                                             <rdf:Description>
                                                 <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
-                                                <rdf:first>Green</rdf:first>
+                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</rdf:first>
                                                 <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                             </rdf:Description>
                                         </rdf:rest>
@@ -139,29 +148,28 @@
     
 
 
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficultyConvention -->
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#hasSnowmaking -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#difficultyConvention">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#hasSnowmaking">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#gladed -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#gladed">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#grooming -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#grooming">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
     </owl:DatatypeProperty>
     
 
@@ -174,11 +182,132 @@
     
 
 
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#lit -->
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isGladed -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#lit">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isGladed">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isGroomed -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isGroomed">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isLit -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isLit">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isOneway -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isOneway">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isPatrolled -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#isPatrolled">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
     </owl:DatatypeProperty>
     
 
@@ -189,37 +318,27 @@
     
 
 
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#oneway -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#oneway">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#patrolled -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#patrolled">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#snowmaking -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#snowmaking">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#status -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#status">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
     </owl:DatatypeProperty>
     
 
@@ -276,6 +395,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Avalanche">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -284,6 +407,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Boomerang">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -292,6 +419,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Doms_Way">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -300,6 +431,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Glacier">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -308,6 +443,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Laurel">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -316,6 +455,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Liftline">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -347,6 +490,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Northstar">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -355,6 +502,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Snowflake">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -363,6 +514,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Stardust">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:hasSnowmaking rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasSnowmaking>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -371,6 +526,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Steeplechase">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -379,6 +537,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Tester">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -387,6 +548,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Thunderbolt">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -395,6 +559,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Turkey_Turn">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 
@@ -403,6 +570,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#Whoopee">
         <rdf:type rdf:resource="http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#SkiRun"/>
+        <ski-map-ontology:hasDifficulty rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:hasDifficulty>
+        <ski-map-ontology:isGroomed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isGroomed>
+        <ski-map-ontology:isPatrolled rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1</ski-map-ontology:isPatrolled>
     </owl:NamedIndividual>
     
 

@@ -1,7 +1,5 @@
 package net.dasumma1.skiguideapi;
 
-import java.security.cert.CertPathValidatorException.Reason;
-
 import org.apache.jena.fuseki.main.FusekiServer;
 import org.apache.jena.fuseki.main.sys.FusekiModules;
 import org.apache.jena.query.Dataset;
@@ -17,7 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SkiguideapiApplication {
 
 	public static void main(String[] args) {
-		startEmbeddedFuseki();
+		try{
+			startEmbeddedFuseki();
+		}
+		catch(Exception e){
+			System.err.println("Failed to start embedded Fuseki server: " + e.getMessage());
+			e.printStackTrace();
+		}
 		SpringApplication
 		.run(SkiguideapiApplication.class, args);
 	}
@@ -26,8 +30,7 @@ public class SkiguideapiApplication {
 		Dataset dataset = TDB2Factory.connectDataset("data/tdb2");
 		Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
 		InfModel infModel = ModelFactory.createInfModel(reasoner, dataset.getDefaultModel());
-		dataset.setDefaultModel(infModel);
-
+		
 		FusekiServer server = FusekiServer.create()
 				.add("/dataset", dataset)
 				.port(3030)

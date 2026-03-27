@@ -61,4 +61,7 @@ public class NeoService {
         return skiLiftRepository.save(skiLift);
     }
 
+    public List<NeoSkiArea> getSkiAreaBySkiRunId(String runId) {
+        return skiAreaRepository.findSkiAreaBySkiRunId(runId);
+    }
 }

@@ -1,5 +1,6 @@
 package net.dasumma1.skiguideapi.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,13 @@ public class SparqlController {
     }
 
     @GetMapping("/sparql-ski-runs")
-    public Map<String, String> getSparqlSkiRuns() {
+    public List<RdfSkiRunRequest> getSparqlSkiRuns() {
         return sparqlService.getSparqlSkiRuns();
     }
 
     @PostMapping("/sparql-ski-runs")
     public String createSparqlSkiRun(@org.springframework.web.bind.annotation.RequestBody RdfSkiRunRequest request) {
-        return sparqlService.createSparqlSkiRun(request);
+        return sparqlService.createSparqlSkiRun(request, null);
     }
 
     @GetMapping("/sparql-ski-lifts")
@@ -51,5 +52,10 @@ public class SparqlController {
     @PostMapping("/sparql-ski-lifts")
     public String createSparqlSkiLift(@org.springframework.web.bind.annotation.RequestBody RdfSkiLiftRequest request) {
         return sparqlService.createSparqlSkiLift(request);
+    }
+
+    @PostMapping("/get-filtered-ski-runs")
+    public List<String> getFilteredSkiRuns(@org.springframework.web.bind.annotation.RequestBody RdfSkiRunRequest preferences) {
+        return sparqlService.getFilteredSkiRuns(preferences);
     }
 }

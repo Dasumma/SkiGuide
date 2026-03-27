@@ -1,6 +1,7 @@
 package net.dasumma1.skiguideapi.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiArea;
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiLift;
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiRun;
+import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest;
 
 @Service
 public class SkiAreaService {
@@ -81,7 +83,7 @@ public class SkiAreaService {
         // Compare and find runs in Neo4j not in SPARQL
         Map<String, String> result = new HashMap<>();
         for (var neoRun : neoSkiRuns) {
-            if (!sparqlSkiRuns.containsKey(neoRun.getId())) {
+            if (!sparqlSkiRuns.stream().anyMatch(sparqlRun -> sparqlRun.getId().equals(neoRun.getId()))) {
                 result.put(neoRun.getId(), neoRun.getName());
             }
         }
@@ -97,9 +99,9 @@ public class SkiAreaService {
 
         // Compare and find runs in SPARQL not in Neo4j
         Map<String, String> result = new HashMap<>();
-        sparqlSkiRuns.forEach((key, value) -> {
-            if (!neoSkiRuns.stream().anyMatch(neoRun -> neoRun.getId().equals(key))) {
-                result.put(key, value);
+        sparqlSkiRuns.forEach((sparqlRun) -> {
+            if (!neoSkiRuns.stream().anyMatch(neoRun -> neoRun.getId().equals(sparqlRun.getId()))) {
+                result.put(sparqlRun.getId(), sparqlRun.getName());
             }
         });
         return result;
@@ -112,14 +114,23 @@ public class SkiAreaService {
             NeoSkiRun neoRun = neoService.getSkiRunById(runId);
             
             // Map NeoSkiRun to RdfSkiRunRequest
-            var request = new net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest();
-            request.setId(neoRun.getId());
-            request.setName(neoRun.getName());
-            request.setDifficulty(neoRun.getDifficulty());
-            request.setAreaId(neoRun.getAreaId());
+            var request = new RdfSkiRunRequest(
+                neoRun.getId(),
+                neoRun.getName(),
+                SparqlService.getDifficultyWeight(neoRun.getDifficulty()),
+                neoRun.getGrooming() == "classic" ? true : false,
+                neoRun.getPatrolled(),
+                neoRun.getSnowmaking(),
+                neoRun.getOneway(),
+                neoRun.getLit(),
+                neoRun.getGladed()
+            );
+
+            List<NeoSkiArea> areas = neoService.getSkiAreaBySkiRunId(runId);
+            List<String> areaIds = areas.stream().map(NeoSkiArea::getId).toList();
 
             // Create a new ski run in SPARQL for each missing run
-            sparqlService.createSparqlSkiRun(request);
+            sparqlService.createSparqlSkiRun(request, areaIds);
         });
         return "Missing runs added to SPARQL: " + missingRuns.toString();
     }

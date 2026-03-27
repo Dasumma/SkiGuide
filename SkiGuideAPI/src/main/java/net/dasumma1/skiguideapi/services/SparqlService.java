@@ -1,7 +1,10 @@
 package net.dasumma1.skiguideapi.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdfconnection.RDFConnection;
@@ -20,7 +23,7 @@ public class SparqlService {
     public SparqlService() {
         // Use root dataset URL and explicit query/update endpoints to avoid 415 errors on server-side content-type mismatch
         this.fusekiClient = RDFConnectionRemote.create()
-                .destination("http://localhost:3031/dataset")
+                .destination("http://localhost:3030/dataset")
                 .queryEndpoint("sparql")
                 .updateEndpoint("update")
                 .build();
@@ -29,7 +32,7 @@ public class SparqlService {
     // SPARQL-based operations
     public Map<String, String> getSparqlSkiAreas() {
         String query = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
-                + "SELECT ?s ?name WHERE { ?s a ski:SkiArea . OPTIONAL { ?s ski:name ?name } } LIMIT 50";
+                + "SELECT ?r ?name WHERE { ?r a ski:SkiArea .  ?r ski:name ?name . } LIMIT 50";
         ResultSet results = fusekiClient.query(query).execSelect();
         Map<String, String> sb = new HashMap<>();
         results.forEachRemaining(qs -> sb.put(getLastPartOfUri(qs.get("s").toString()), qs.get("name").toString()));
@@ -44,35 +47,72 @@ public class SparqlService {
         return "Inserted SKIAREA " + uri;
     }
 
-    public Map<String, String> getSparqlSkiRuns() {
-        String query = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
-                + "SELECT ?r ?name ?area WHERE { ?r a ski:SkiRun . OPTIONAL { ?r ski:name ?name } OPTIONAL { ?area ski:hasSkiRun ?r } } LIMIT 50";
-        ResultSet results = fusekiClient.query(query).execSelect();
-        Map<String, String> sb = new HashMap<>();
-        results.forEachRemaining(qs -> sb.put(getLastPartOfUri(qs.get("r").toString()), qs.get("name").toString()));
+    public List<RdfSkiRunRequest> getSparqlSkiRuns() {
+        StringBuilder query = new StringBuilder()
+            .append("PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
+            .append("SELECT ?r ?name ?difficulty ?snowmaking ?grooming ?patrolled ?lit ?gladed ")
+            .append("WHERE { ")
+            .append("?r a ski:SkiRun . ")
+            .append("?r ski:name ?name . ")
+            .append("OPTIONAL { ?r ski:isRunOf ?area . } ")
+            .append("OPTIONAL { ?r ski:hasDifficulty ?difficulty } ")
+            .append("OPTIONAL { ?r ski:hasSnowmaking ?snowmaking } ")
+            .append("OPTIONAL { ?r ski:isGroomed ?grooming } ")
+            .append("OPTIONAL { ?r ski:isPatrolled ?patrolled } ")
+            .append("OPTIONAL { ?r ski:isLit ?lit } ")
+            .append("OPTIONAL { ?r ski:isGladed ?gladed } ")
+            .append("} LIMIT 50 ");
+
+        ResultSet results = fusekiClient.query(query.toString()).execSelect();
+        List<RdfSkiRunRequest> sb = new ArrayList<RdfSkiRunRequest>();
+        results.forEachRemaining(qs -> 
+            sb.add(
+                new RdfSkiRunRequest(
+                    getLastPartOfUri(qs.get("r").toString()), 
+                    qs.get("name").toString(),
+                    qs.get("difficulty") != null ? Integer.parseInt(qs.get("difficulty").toString()) : 0,
+                    qs.get("grooming") != null ? Boolean.parseBoolean(qs.get("grooming").toString()) : null,
+                    qs.get("patrolled") != null ? Boolean.parseBoolean(qs.get("patrolled").toString()) : null,
+                    qs.get("snowmaking") != null ? Boolean.parseBoolean(qs.get("snowmaking").toString()) : null,
+                    qs.get("oneway") != null ? Boolean.parseBoolean(qs.get("oneway").toString()) : null,
+                    qs.get("lit") != null ? Boolean.parseBoolean(qs.get("lit").toString()) : null,
+                    qs.get("gladed") != null ? Boolean.parseBoolean(qs.get("gladed").toString()) : null
+                )
+            )
+        );
         return sb;
     }
 
-    public String createSparqlSkiRun(RdfSkiRunRequest request) {
+    public String createSparqlSkiRun(RdfSkiRunRequest request, List<String> areaIds) {
         String runUri = buildUri("ski-run", request.getId());
-        String areaUri = buildUri("ski-area", request.getAreaId());
         StringBuilder insert = new StringBuilder()
             .append("PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
             .append("INSERT DATA { ")
             .append("<").append(runUri).append("> a ski:SkiRun ; ")
             .append("ski:name \"").append(escapeLiteral(request.getName())).append("\" ; ");
+            for (String areaId : areaIds) {
+                insert.append("ski:isRunOf <").append( buildUri("ski-area", areaId)).append("> ; ");
+            }
 
-        if (request.getDifficulty() != null) {
-            insert.append("ski:difficulty \"").append(escapeLiteral(request.getDifficulty())).append("\" ; ");
-        }
-        if (request.getAreaId() != null) {
-            insert.append("ski:isRunOf <").append(areaUri).append("> . ");
-            insert.append("<").append(areaUri).append("> a ski:SkiArea ; ski:hasSkiRun <").append(runUri).append("> . ");
-        } else {
-            insert.append(". ");
-        }
-        insert.append("}");
+            insert.append("ski:hasDifficulty \"").append(request.getHasDifficulty()).append("\" ; ");
+            if (request.getIsGroomed() != null) {
+                insert.append("ski:isGroomed ").append(request.getIsGroomed()).append(" ; ");
+            }
+            if (request.getIsPatrolled() != null) {
+                insert.append("ski:isPatrolled ").append(request.getIsPatrolled()).append(" ; ");
+            }
+            if (request.getHasSnowmaking() != null) {
+                insert.append("ski:hasSnowmaking ").append(request.getHasSnowmaking()).append(" ; ");
+            }
+            if (request.getIsLit() != null) {
+                insert.append("ski:isLit ").append(request.getIsLit()).append(" ; ");
+            }
+            if (request.getIsGladed() != null) {
+                insert.append("ski:isGladed ").append(request.getIsGladed()).append(" . ");
+            }
+            insert.append("}");
 
+        Logger.getLogger(SparqlService.class.getName()).info("Generated SPARQL Query: " + insert.toString());
         fusekiClient.update(insert.toString());
         return "Inserted SKIRUN " + runUri;
     }
@@ -138,5 +178,72 @@ public class SparqlService {
             return "";
         }
         return value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
+    }
+
+    public List<String> getFilteredSkiRuns(RdfSkiRunRequest preferences) {
+        // Build SPARQL query based on provided filters
+        StringBuilder query = new StringBuilder()
+            .append("PREFIX : <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
+            .append("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> ")
+            .append("SELECT ?r ?area ?score ");
+        //Build weighted filters
+        
+        query.append("WHERE { ")
+            .append("?r a :SkiRun . ")
+            .append("?r :isRunOf ?area . ")
+            .append("OPTIONAL { ?r :hasDifficulty ?hasDifficulty . } ")
+            .append("OPTIONAL { ?r :isGladed ?isGladed . } ")
+            .append("OPTIONAL { ?r :isGroomed ?isGroomed . } ")
+            .append("OPTIONAL { ?r :isLit ?isLit . } ")
+            .append("OPTIONAL { ?r :isOneway ?isOneway . } ")
+            .append("OPTIONAL { ?r :hasSnowmaking ?hasSnowmaking . } ")
+            .append("OPTIONAL { ?r :isPatrolled ?isPatrolled . } ")
+            .append("BIND ( ");
+            
+        query.append(String.format("xsd:integer(COALESCE(?hasDifficulty, 4)) ", preferences.getHasDifficulty()));
+
+        if (preferences.getIsGladed() == true) {
+            query.append("+ IF(COALESCE(?isGladed, true), 0, 1) ");
+        } 
+        if (preferences.getIsGroomed() == true) {
+            query.append("+ IF(COALESCE(?isGroomed, true), 0, 1) ");
+        } 
+        if (preferences.getIsLit() == true) {
+            query.append("+ IF(COALESCE(?isLit, true), 0, 1) ");
+        } 
+        if (preferences.getIsOneway() == true) {
+            query.append("+ IF(COALESCE(?isOneway, true), 0, 1) ");
+        } 
+        if (preferences.getHasSnowmaking() == true) {
+            query.append("+ IF(COALESCE(?hasSnowmaking, true), 0, 1) ");
+        } 
+        if (preferences.getIsPatrolled() == true) {
+            query.append("+ IF(COALESCE(?isPatrolled, true), 0, 1) ");
+        }
+
+        query.append(" AS ?score ) ")
+            .append("} ")
+            .append("ORDER BY DESC(?score)");
+
+        Logger.getLogger(SparqlService.class.getName()).info("Generated SPARQL Query: " + query.toString());
+        List<String> runIds = new ArrayList<String>();
+        fusekiClient.query(query.toString()).execSelect().forEachRemaining(qs -> {
+            // Map results to RdfSkiRunRequest objects and add to list
+            // For simplicity, only ID is mapped here, but you can expand this to include all relevant properties
+            runIds.add(getLastPartOfUri(qs.get("r").toString()) + " (Score: " + qs.get("score").toString() + ")");
+            // Add logic to create RdfSkiRunRequest from query solution and add to result list
+        });
+
+        return runIds;
+    }
+
+    public static int getDifficultyWeight(String difficulty) {
+        switch (difficulty.toLowerCase()) {
+            case "easy": return 1;
+            case "intermediate": return 2;
+            case "difficult": return 3;
+            case "expert": return 4;
+            default: return 4; // Unknown difficulty
+        }
     }
 }

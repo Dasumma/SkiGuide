@@ -1,5 +1,8 @@
 package net.dasumma1.skiguideapi.rdf_objects;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request object for creating a new ski lift in the RDF store")
 public class RdfSkiLiftRequest {
     private String id;
     private String name;
