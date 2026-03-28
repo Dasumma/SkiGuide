@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiAreaRequest;
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiLiftRequest;
+import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunPreferencesRequest;
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest;
 
 @Service
@@ -32,7 +33,7 @@ public class SparqlService {
     // SPARQL-based operations
     public Map<String, String> getSparqlSkiAreas() {
         String query = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
-                + "SELECT ?r ?name WHERE { ?r a ski:SkiArea .  ?r ski:name ?name . } LIMIT 50";
+                + "SELECT ?s ?name WHERE { ?s a ski:SkiArea .  ?s ski:name ?name . } LIMIT 50";
         ResultSet results = fusekiClient.query(query).execSelect();
         Map<String, String> sb = new HashMap<>();
         results.forEachRemaining(qs -> sb.put(getLastPartOfUri(qs.get("s").toString()), qs.get("name").toString()));
@@ -50,7 +51,7 @@ public class SparqlService {
     public List<RdfSkiRunRequest> getSparqlSkiRuns() {
         StringBuilder query = new StringBuilder()
             .append("PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
-            .append("SELECT ?r ?name ?difficulty ?snowmaking ?grooming ?patrolled ?lit ?gladed ")
+            .append("SELECT ?r ?name ?difficulty ?snowmaking ?grooming ?patrolled ?oneway ?lit ?gladed ")
             .append("WHERE { ")
             .append("?r a ski:SkiRun . ")
             .append("?r ski:name ?name . ")
@@ -59,6 +60,7 @@ public class SparqlService {
             .append("OPTIONAL { ?r ski:hasSnowmaking ?snowmaking } ")
             .append("OPTIONAL { ?r ski:isGroomed ?grooming } ")
             .append("OPTIONAL { ?r ski:isPatrolled ?patrolled } ")
+            .append("OPTIONAL { ?r ski:isOneway ?oneway } ")
             .append("OPTIONAL { ?r ski:isLit ?lit } ")
             .append("OPTIONAL { ?r ski:isGladed ?gladed } ")
             .append("} LIMIT 50 ");
@@ -93,7 +95,7 @@ public class SparqlService {
             for (String areaId : areaIds) {
                 insert.append("ski:isRunOf <").append( buildUri("ski-area", areaId)).append("> ; ");
             }
-
+            
             insert.append("ski:hasDifficulty \"").append(request.getHasDifficulty()).append("\" ; ");
             if (request.getIsGroomed() != null) {
                 insert.append("ski:isGroomed ").append(request.getIsGroomed()).append(" ; ");
@@ -103,6 +105,9 @@ public class SparqlService {
             }
             if (request.getHasSnowmaking() != null) {
                 insert.append("ski:hasSnowmaking ").append(request.getHasSnowmaking()).append(" ; ");
+            }
+            if (request.getIsOneway() != null){
+                insert.append("ski:isOneway ").append(request.getIsOneway()).append(" ; ");
             }
             if (request.getIsLit() != null) {
                 insert.append("ski:isLit ").append(request.getIsLit()).append(" ; ");
@@ -180,7 +185,7 @@ public class SparqlService {
         return value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
     }
 
-    public List<String> getFilteredSkiRuns(RdfSkiRunRequest preferences) {
+    public List<String> getFilteredSkiRuns(RdfSkiRunPreferencesRequest preferences) {
         // Build SPARQL query based on provided filters
         StringBuilder query = new StringBuilder()
             .append("PREFIX : <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
@@ -200,26 +205,13 @@ public class SparqlService {
             .append("OPTIONAL { ?r :isPatrolled ?isPatrolled . } ")
             .append("BIND ( ");
             
-        query.append(String.format("xsd:integer(COALESCE(?hasDifficulty, 4)) ", preferences.getHasDifficulty()));
-
-        if (preferences.getIsGladed() == true) {
-            query.append("+ IF(COALESCE(?isGladed, true), 0, 1) ");
-        } 
-        if (preferences.getIsGroomed() == true) {
-            query.append("+ IF(COALESCE(?isGroomed, true), 0, 1) ");
-        } 
-        if (preferences.getIsLit() == true) {
-            query.append("+ IF(COALESCE(?isLit, true), 0, 1) ");
-        } 
-        if (preferences.getIsOneway() == true) {
-            query.append("+ IF(COALESCE(?isOneway, true), 0, 1) ");
-        } 
-        if (preferences.getHasSnowmaking() == true) {
-            query.append("+ IF(COALESCE(?hasSnowmaking, true), 0, 1) ");
-        } 
-        if (preferences.getIsPatrolled() == true) {
-            query.append("+ IF(COALESCE(?isPatrolled, true), 0, 1) ");
-        }
+        query.append(String.format("ABS(xsd:integer(COALESCE(?hasDifficulty, 4)) * 25 - %f) ", preferences.getHasDifficulty()));
+            query.append(String.format("+ IF(COALESCE(?isGladed, true), 0, 1) * %f / 5", preferences.getIsGladed()));
+            query.append(String.format("+ IF(COALESCE(?isGroomed, true), 0, 1) * %f / 5", preferences.getIsGroomed()));
+            query.append(String.format("+ IF(COALESCE(?isLit, true), 0, 1) * %f / 5 ", preferences.getIsLit()));
+            query.append(String.format("+ IF(COALESCE(?isOneway, true), 0, 1) * %f / 5 ", preferences.getIsOneway()));
+            query.append(String.format("+ IF(COALESCE(?hasSnowmaking, true), 0, 1) * %f / 5 ", preferences.getHasSnowmaking()));
+            query.append(String.format("+ IF(COALESCE(?isPatrolled, true), 0, 1) * %f / 5", preferences.getIsPatrolled()));
 
         query.append(" AS ?score ) ")
             .append("} ")

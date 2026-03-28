@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiAreaRequest;
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiLiftRequest;
+import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunPreferencesRequest;
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest;
 import net.dasumma1.skiguideapi.services.SparqlService;
 
@@ -55,7 +56,7 @@ public class SparqlController {
     }
 
     @PostMapping("/get-filtered-ski-runs")
-    public List<String> getFilteredSkiRuns(@org.springframework.web.bind.annotation.RequestBody RdfSkiRunRequest preferences) {
+    public List<String> getFilteredSkiRuns(@org.springframework.web.bind.annotation.RequestBody RdfSkiRunPreferencesRequest preferences) {
         return sparqlService.getFilteredSkiRuns(preferences);
     }
 }
