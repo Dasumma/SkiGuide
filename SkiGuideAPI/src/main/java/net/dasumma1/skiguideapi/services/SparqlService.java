@@ -222,7 +222,7 @@ public class SparqlService {
         fusekiClient.query(query.toString()).execSelect().forEachRemaining(qs -> {
             // Map results to RdfSkiRunRequest objects and add to list
             // For simplicity, only ID is mapped here, but you can expand this to include all relevant properties
-            runIds.add(getLastPartOfUri(qs.get("r").toString()) + " (Score: " + qs.get("score").toString() + ")");
+            runIds.add("'"+getLastPartOfUri(qs.get("r").toString())+"'");
             // Add logic to create RdfSkiRunRequest from query solution and add to result list
         });
 

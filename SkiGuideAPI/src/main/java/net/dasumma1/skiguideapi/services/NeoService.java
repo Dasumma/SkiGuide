@@ -1,7 +1,12 @@
 package net.dasumma1.skiguideapi.services;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiArea;
@@ -63,5 +68,11 @@ public class NeoService {
 
     public List<NeoSkiArea> getSkiAreaBySkiRunId(String runId) {
         return skiAreaRepository.findSkiAreaBySkiRunId(runId);
+    }
+
+    public String findRoute(List<String> filteredRuns, Point start, Point end) {
+        skiAreaRepository.deleteGdsGraph();
+        skiAreaRepository.createGdsGraph(filteredRuns.toString());
+        return skiAreaRepository.customQuery().toString();
     }
 }

@@ -5,21 +5,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Request object for filtered runs based on preferences")
 public class RdfSkiRunPreferencesRequest {
     @Schema(minimum="0", maximum = "100")
-    private double hasDifficulty;
+    private Double hasDifficulty;
     @Schema(minimum="0", maximum = "100")
-    private double isGroomed;
+    private Double isGroomed;
     @Schema(minimum="0", maximum = "100")
-    private double isPatrolled;
+    private Double isPatrolled;
     @Schema(minimum="0", maximum = "100")
-    private double hasSnowmaking;
+    private Double hasSnowmaking;
     @Schema(minimum="0", maximum = "100")
-    private double isOneway;
+    private Double isOneway;
     @Schema(minimum="0", maximum = "100")
-    private double isLit;
+    private Double isLit;
     @Schema(minimum="0", maximum = "100")
-    private double isGladed;
+    private Double isGladed;
 
-    public RdfSkiRunPreferencesRequest(double hasDifficulty, double isGroomed, double isPatrolled, double hasSnowmaking, double isOneway, double isLit, double isGladed) {
+    public RdfSkiRunPreferencesRequest(Double hasDifficulty, Double isGroomed, Double isPatrolled, Double hasSnowmaking, Double isOneway, Double isLit, Double isGladed) {
         this.hasDifficulty = hasDifficulty;
         this.isGroomed = isGroomed;
         this.isPatrolled = isPatrolled;
@@ -29,31 +29,31 @@ public class RdfSkiRunPreferencesRequest {
         this.isGladed = isGladed;
     }
 
-    public double getHasDifficulty(){
+    public Double getHasDifficulty(){
         return hasDifficulty;
     }
 
-    public double getIsGroomed(){
+    public Double getIsGroomed(){
         return isGroomed;
     }
 
-    public double getIsPatrolled(){
+    public Double getIsPatrolled(){
         return isPatrolled;
     }
 
-    public double getHasSnowmaking(){
+    public Double getHasSnowmaking(){
         return hasSnowmaking;
     }
 
-    public double getIsOneway(){
+    public Double getIsOneway(){
         return isOneway;
     }
 
-    public double getIsLit(){
+    public Double getIsLit(){
         return isLit;
     }
 
-    public double getIsGladed(){
+    public Double getIsGladed(){
         return isGladed;
     }
 }

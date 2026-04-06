@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiArea;
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiLift;
 import net.dasumma1.skiguideapi.neo_objects.NeoSkiRun;
+import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunPreferencesRequest;
 import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest;
 
 @Service
@@ -187,5 +189,12 @@ public class SkiAreaService {
             sparqlService.createSparqlSkiLift(request);
         });
         return "Missing lifts added to SPARQL: " + missingLifts.toString();
+    }
+
+    public String getBestRouteUsingPriorityRuns(RdfSkiRunPreferencesRequest request, Point start, Point end) {
+        var filteredRuns = sparqlService.getFilteredSkiRuns(request);
+        var findRoute = neoService.findRoute(filteredRuns, start, end);
+
+        return "Best route using priority runs: " + findRoute.toString();
     }
 }

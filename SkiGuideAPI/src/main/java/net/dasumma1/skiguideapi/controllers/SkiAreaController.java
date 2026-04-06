@@ -2,10 +2,14 @@ package net.dasumma1.skiguideapi.controllers;
 
 import java.util.Map;
 
+import org.springframework.data.geo.Point;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.dasumma1.skiguideapi.area_objects.GetBestRouteUsingPriorityRunsRequest;
+import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunPreferencesRequest;
 import net.dasumma1.skiguideapi.services.SkiAreaService;
 
 @RestController
@@ -61,5 +65,10 @@ public class SkiAreaController {
     @GetMapping("/add-missing-lifts-to-sparql")
     public String addMissingLiftsToSparql(){
         return skiAreaService.addMissingLiftsToSparql();
+    }
+
+    @PostMapping("/get-best-route-using-priority-runs")
+    public String getBestRouteUsingPriorityRuns(@org.springframework.web.bind.annotation.RequestBody GetBestRouteUsingPriorityRunsRequest request) {
+        return skiAreaService.getBestRouteUsingPriorityRuns(request.getPreferences(), request.getStart(), request.getEnd());
     }
 }
