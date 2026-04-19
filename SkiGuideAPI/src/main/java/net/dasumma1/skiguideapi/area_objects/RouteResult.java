@@ -30,9 +30,9 @@ public class RouteResult {
 
     @Override
     public String toString() {
-        return "RouteResult{" +
-                "path=" + pathToString() +
-                ", distance=" + distance +
-                '}';
+        return "{\"routeResult\": {" +
+                "\"path\": " + pathToString() +
+                ", \"distance\": " + distance +
+                "}}";
     }
 }

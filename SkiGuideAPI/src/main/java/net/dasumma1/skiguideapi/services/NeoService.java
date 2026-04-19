@@ -75,4 +75,12 @@ public class NeoService {
         skiAreaRepository.createGdsGraph(filteredRuns.toString());
         return skiAreaRepository.customQuery().toString();
     }
+
+    public NeoSkiArea getClosestSkiArea(Point point) {
+        return skiAreaRepository.getClosestSkiArea(point);
+    }
+
+    public void createSkiAreaJson(){
+        skiAreaRepository.createSkiAreaUsingJson(null, null, null);
+    }
 }

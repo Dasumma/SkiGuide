@@ -195,6 +195,6 @@ public class SkiAreaService {
         var filteredRuns = sparqlService.getFilteredSkiRuns(request);
         var findRoute = neoService.findRoute(filteredRuns, start, end);
 
-        return "Best route using priority runs: " + findRoute.toString();
+        return findRoute.toString();
     }
 }

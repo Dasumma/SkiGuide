@@ -2,8 +2,10 @@ package net.dasumma1.skiguideapi.controllers;
 
 import java.util.List;
 
+import org.springframework.data.geo.Point;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,33 +25,38 @@ public class NeoController {
     }
 
     // Neo4j-based endpoints
-    @GetMapping("/n4j-ski-areas")
+    @GetMapping("/ski-areas")
     public List<NeoSkiArea> getNeoSkiAreas() {
         return neoService.getAllSkiAreas();
     }
 
-    @PostMapping("/n4j-ski-areas")
-    public NeoSkiArea createSkiArea(@org.springframework.web.bind.annotation.RequestBody NeoSkiArea skiArea) {
+    @PostMapping("/ski-areas")
+    public NeoSkiArea createSkiArea(@RequestBody NeoSkiArea skiArea) {
         return neoService.createSkiArea(skiArea);
     }
 
-    @GetMapping("/n4j-ski-runs")
+    @GetMapping("/ski-runs")
     public List<NeoSkiRun> getNeoSkiRuns() {
         return neoService.getAllSkiRuns();
     }
 
-    @PostMapping("/n4j-ski-runs")
-    public NeoSkiRun createSkiRun(@org.springframework.web.bind.annotation.RequestBody NeoSkiRun skiRun) {
+    @PostMapping("/ski-runs")
+    public NeoSkiRun createSkiRun(@RequestBody NeoSkiRun skiRun) {
         return neoService.createSkiRun(skiRun);
     }
 
-    @GetMapping("/n4j-ski-lifts")
+    @GetMapping("/ski-lifts")
     public List<NeoSkiLift> getNeoSkiLifts() {
         return neoService.getAllSkiLifts();
     }
 
-    @PostMapping("/n4j-ski-lifts")
-    public NeoSkiLift createSkiLift(@org.springframework.web.bind.annotation.RequestBody NeoSkiLift skiLift) {
+    @PostMapping("/ski-lifts")
+    public NeoSkiLift createSkiLift(@RequestBody NeoSkiLift skiLift) {
         return neoService.createSkiLift(skiLift);
+    }
+
+    @PostMapping("/get-closest-ski-area")
+    public NeoSkiArea getClosestSkiArea(@RequestBody Point point) {
+        return neoService.getClosestSkiArea(point);
     }
 }
