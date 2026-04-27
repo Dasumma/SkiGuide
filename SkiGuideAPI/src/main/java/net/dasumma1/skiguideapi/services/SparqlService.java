@@ -11,18 +11,27 @@ import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.rdfconnection.RDFConnectionRemote;
 import org.springframework.stereotype.Service;
 
-import net.dasumma1.skiguideapi.rdf_objects.RdfSkiAreaRequest;
-import net.dasumma1.skiguideapi.rdf_objects.RdfSkiLiftRequest;
-import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunPreferencesRequest;
-import net.dasumma1.skiguideapi.rdf_objects.RdfSkiRunRequest;
+import net.dasumma1.skiguideapi.request_objects.RdfSkiAreaRequest;
+import net.dasumma1.skiguideapi.request_objects.RdfSkiLiftRequest;
+import net.dasumma1.skiguideapi.request_objects.RdfSkiRunPreferencesRequest;
+import net.dasumma1.skiguideapi.request_objects.RdfSkiRunRequest;
 
+/**
+ * Service class for interacting with an Apache Jena Fuseki SPARQL endpoint.
+ * This service handles RDF-based CRUD operations for ski areas, runs, and lifts,
+ * and provides preference-based filtering using weighted SPARQL BIND expressions.
+ */
 @Service
 public class SparqlService {
 
+    /** Connection client to the Fuseki server. */
     private final RDFConnection fusekiClient;
 
+    /**
+     * Initializes the SparqlService by establishing a remote connection to the Fuseki dataset.
+     * Configures explicit query and update endpoints to ensure compatibility with server-side content types.
+     */
     public SparqlService() {
-        // Use root dataset URL and explicit query/update endpoints to avoid 415 errors on server-side content-type mismatch
         this.fusekiClient = RDFConnectionRemote.create()
                 .destination("http://localhost:3030/dataset")
                 .queryEndpoint("sparql")
@@ -30,7 +39,10 @@ public class SparqlService {
                 .build();
     }
 
-    // SPARQL-based operations
+    /**
+     * Retrieves all ski areas currently stored in the RDF triplestore.
+     * * @return a Map of ski area IDs (extracted from URIs) to their human-readable names.
+     */
     public Map<String, String> getSparqlSkiAreas() {
         String query = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
                 + "SELECT ?s ?name WHERE { ?s a ski:SkiArea .  ?s ski:name ?name . } LIMIT 50";
@@ -40,6 +52,11 @@ public class SparqlService {
         return sb;
     }
 
+    /**
+     * Creates a new SkiArea entry in the RDF triplestore.
+     * * @param request the object containing the ID and name of the area to insert.
+     * @return a confirmation string containing the generated URI of the inserted area.
+     */
     public String createSparqlSkiArea(RdfSkiAreaRequest request) {
         String uri = buildUri("ski-area", request.getId());
         String update = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
@@ -48,6 +65,11 @@ public class SparqlService {
         return "Inserted SKIAREA " + uri;
     }
 
+    /**
+     * Retrieves detailed information for up to 50 ski runs from the RDF triplestore.
+     * Uses OPTIONAL clauses to fetch attributes like difficulty, snowmaking, and grooming status.
+     * * @return a List of {@link RdfSkiRunRequest} objects populated with run metadata.
+     */
     public List<RdfSkiRunRequest> getSparqlSkiRuns() {
         StringBuilder query = new StringBuilder()
             .append("PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
@@ -85,6 +107,13 @@ public class SparqlService {
         return sb;
     }
 
+    /**
+     * Inserts a new ski run and its associated properties into the RDF triplestore.
+     * Handles linking the run to multiple ski areas.
+     * * @param request the ski run data (name, difficulty, grooming, etc.).
+     * @param areaIds a list of area IDs to which this run belongs.
+     * @return a confirmation string containing the run URI.
+     */
     public String createSparqlSkiRun(RdfSkiRunRequest request, List<String> areaIds) {
         String runUri = buildUri("ski-run", request.getId());
         StringBuilder insert = new StringBuilder()
@@ -122,6 +151,10 @@ public class SparqlService {
         return "Inserted SKIRUN " + runUri;
     }
 
+    /**
+     * Retrieves all ski lifts currently stored in the RDF triplestore.
+     * * @return a Map of lift IDs to lift names.
+     */
     public Map<String, String> getSparqlSkiLifts() {
         String query = "PREFIX ski: <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> "
                 + "SELECT ?l ?name ?area WHERE { ?l a ski:SkiLift . OPTIONAL { ?l ski:name ?name } OPTIONAL { ?area ski:hasSkiLift ?l } } LIMIT 50";
@@ -131,6 +164,12 @@ public class SparqlService {
         return sb;
     }
 
+    /**
+     * Creates a new SkiLift in the RDF triplestore and establishes 
+     * bidirectional links between the lift and its parent area.
+     * * @param request the lift data including name, type, and associated area ID.
+     * @return a confirmation string containing the lift URI.
+     */
     public String createSparqlSkiLift(RdfSkiLiftRequest request) {
         String liftUri = buildUri("ski-lift", request.getId());
         String areaUri = buildUri("ski-area", request.getAreaId());
@@ -155,18 +194,23 @@ public class SparqlService {
         return "Inserted SKILIFT " + liftUri;
     }
 
-    /* Helper Methods */
     /**
-     * Builds a clean URI for a given type and ID, generating a UUID if ID is null or empty.
-     * @param type
-     * @param id
-     * @return
+     * Generates a URI for an RDF resource based on its type and ID.
+     * Sanitizes the ID by replacing spaces with hyphens and removing special characters.
+     * * @param type the resource type (e.g., "ski-run", "ski-area").
+     * @param id the unique identifier for the resource.
+     * @return the fully qualified URI string.
      */
     private static String buildUri(String type, String id) {
         String cleanId = id == null ? java.util.UUID.randomUUID().toString() : id.trim().replaceAll("\\s+", "-").replaceAll("[^a-zA-Z0-9_-]", "");
         return "http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology/" + type + "/" + cleanId;
     }
 
+    /**
+     * Extracts the local identifier from a full URI string.
+     * * @param uri the full URI (e.g., "http://.../ski-run/run-123").
+     * @return the substring after the last slash.
+     */
     private static String getLastPartOfUri(String uri) {
         if (uri == null) return null;
         String[] parts = uri.split("/");
@@ -174,9 +218,10 @@ public class SparqlService {
     }
 
     /**
-     * Escapes special characters in a literal value for safe inclusion in Sparql queries.
-     * @param value
-     * @return
+     * Escapes special characters in a literal string to prevent SPARQL injection 
+     * and ensure valid syntax for literals containing quotes or backslashes.
+     * * @param value the string to escape.
+     * @return the escaped string safe for inclusion in a SPARQL query.
      */
     private static String escapeLiteral(String value) {
         if (value == null) {
@@ -185,13 +230,18 @@ public class SparqlService {
         return value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
     }
 
+    /**
+     * Queries the triplestore for ski runs and calculates a "score" for each based on user preferences.
+     * The score uses a mathematical calculation in a BIND clause to weight different 
+     * attributes (difficulty, grooming, lighting, etc.) provided in the request.
+     * * @param preferences the user's weighted preferences for run features.
+     * @return a List of run IDs ordered by their suitability score (descending).
+     */
     public List<String> getFilteredSkiRuns(RdfSkiRunPreferencesRequest preferences) {
-        // Build SPARQL query based on provided filters
         StringBuilder query = new StringBuilder()
             .append("PREFIX : <http://www.semanticweb.org/dasum/ontologies/2026/1/ski-map-ontology#> ")
             .append("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> ")
             .append("SELECT ?r ?area ?score ");
-        //Build weighted filters
         
         query.append("WHERE { ")
             .append("?r a :SkiRun . ")
@@ -220,22 +270,24 @@ public class SparqlService {
         Logger.getLogger(SparqlService.class.getName()).info("Generated SPARQL Query: " + query.toString());
         List<String> runIds = new ArrayList<String>();
         fusekiClient.query(query.toString()).execSelect().forEachRemaining(qs -> {
-            // Map results to RdfSkiRunRequest objects and add to list
-            // For simplicity, only ID is mapped here, but you can expand this to include all relevant properties
-            runIds.add("'"+getLastPartOfUri(qs.get("r").toString())+"'");
-            // Add logic to create RdfSkiRunRequest from query solution and add to result list
+            runIds.add(getLastPartOfUri(qs.get("r").toString()));
         });
 
         return runIds;
     }
 
+    /**
+     * Converts a string-based difficulty label into a numerical weight for calculation.
+     * * @param difficulty the difficulty label (e.g., "easy", "expert").
+     * @return an integer weight from 1 (easy) to 4 (expert).
+     */
     public static int getDifficultyWeight(String difficulty) {
         switch (difficulty.toLowerCase()) {
             case "easy": return 1;
             case "intermediate": return 2;
             case "difficult": return 3;
             case "expert": return 4;
-            default: return 4; // Unknown difficulty
+            default: return 4;
         }
     }
 }
