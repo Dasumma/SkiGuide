@@ -26,7 +26,7 @@ public class SkiAreaController {
 
     /**
      * Constructs the controller with the required SkiAreaService.
-     * * @param skiAreaService the service used for cross-store data management
+     * @param skiAreaService the service used for cross-store data management
      */
     public SkiAreaController(SkiAreaService skiAreaService) {
         this.skiAreaService = skiAreaService;
@@ -34,7 +34,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski areas present in Neo4j but missing from SPARQL.
-     * * @return a Map of missing area IDs to names
+     * @return a Map of missing area IDs to names
      */
     @GetMapping("/find-areas-in-neo-not-in-sparql")
     public Map<String, String> findAreasInNeoNotInSparql(){
@@ -43,7 +43,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski areas present in SPARQL but missing from Neo4j.
-     * * @return a Map of missing area IDs to names
+     * @return a Map of missing area IDs to names
      */
     @GetMapping("/find-areas-in-sparql-not-in-neo")
     public Map<String, String> findAreasInSparqlNotInNeo(){
@@ -52,7 +52,7 @@ public class SkiAreaController {
 
     /**
      * Synchronizes missing ski areas from Neo4j into the SPARQL store.
-     * * @return a status message confirming the additions
+     * @return a status message confirming the additions
      */
     @GetMapping("/add-missing-areas-to-sparql")
     public String addMissingAreasToSparql(){
@@ -61,7 +61,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski runs present in Neo4j but missing from SPARQL.
-     * * @return a Map of missing run IDs to names
+     * @return a Map of missing run IDs to names
      */
     @GetMapping("/find-runs-in-neo-not-in-sparql")
     public Map<String, String> findRunsInNeoNotInSparql(){
@@ -70,7 +70,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski runs present in SPARQL but missing from Neo4j.
-     * * @return a Map of missing run IDs to names
+     * @return a Map of missing run IDs to names
      */
     @GetMapping("/find-runs-in-sparql-not-in-neo")
     public Map<String, String> findRunsInSparqlNotInNeo(){
@@ -79,7 +79,7 @@ public class SkiAreaController {
 
     /**
      * Synchronizes missing ski runs from Neo4j into the SPARQL store.
-     * * @return a status message confirming the additions
+     * @return a status message confirming the additions
      */
     @GetMapping("/add-missing-runs-to-sparql")
     public String addMissingRunsToSparql(){
@@ -88,7 +88,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski lifts present in Neo4j but missing from SPARQL.
-     * * @return a Map of missing lift IDs to names
+     * @return a Map of missing lift IDs to names
      */
     @GetMapping("/find-lifts-in-neo-not-in-sparql")
     public Map<String, String> findLiftsInNeoNotInSparql(){ 
@@ -97,7 +97,7 @@ public class SkiAreaController {
 
     /**
      * Identifies ski lifts present in SPARQL but missing from Neo4j.
-     * * @return a Map of missing lift IDs to names
+     * @return a Map of missing lift IDs to names
      */
     @GetMapping("/find-lifts-in-sparql-not-in-neo")
     public Map<String, String> findLiftsInSparqlNotInNeo(){         
@@ -106,7 +106,7 @@ public class SkiAreaController {
     
     /**
      * Synchronizes missing ski lifts from Neo4j into the SPARQL store.
-     * * @return a status message confirming the additions
+     * @return a status message confirming the additions
      */
     @GetMapping("/add-missing-lifts-to-sparql")
     public String addMissingLiftsToSparql(){
@@ -116,7 +116,7 @@ public class SkiAreaController {
     /**
      * Calculates the best route between two points using a weighted priority 
      * system for run characteristics (difficulty, grooming, etc.).
-     * * @param request the routing request containing user preferences, start point, and end point
+     * @param request the routing request containing user preferences, start point, and end point
      * @return a string representation (typically JSON) of the calculated route result
      */
     @PostMapping("/get-best-route-using-priority-runs")

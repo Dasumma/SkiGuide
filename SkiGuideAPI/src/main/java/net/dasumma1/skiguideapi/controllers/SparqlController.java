@@ -30,7 +30,7 @@ public class SparqlController {
 
     /**
      * Constructs the controller with the required SparqlService.
-     * * @param sparqlService the service used for RDF triplestore interactions
+     * @param sparqlService the service used for RDF triplestore interactions
      */
     public SparqlController(SparqlService sparqlService) {
         this.sparqlService = sparqlService;
@@ -38,7 +38,7 @@ public class SparqlController {
 
     /**
      * Retrieves all ski areas currently defined in the RDF triplestore.
-     * * @return a Map where the keys are area URIs/IDs and values are the area names
+     * @return a Map where the keys are area URIs/IDs and values are the area names
      */
     @GetMapping("/sparql-ski-areas")
     public Map<String, String> getSparqlSkiAreas() {
@@ -47,7 +47,7 @@ public class SparqlController {
 
     /**
      * Creates a new ski area entry in the RDF triplestore.
-     * * @param request the data required to create a new semantic ski area
+     * @param request the data required to create a new semantic ski area
      * @return a confirmation message indicating the result of the insertion
      */
     @PostMapping("/sparql-ski-areas")
@@ -57,7 +57,7 @@ public class SparqlController {
 
     /**
      * Retrieves a list of all ski runs stored in the RDF triplestore with their attributes.
-     * * @return a list of {@link RdfSkiRunRequest} objects representing the runs
+     * @return a list of {@link RdfSkiRunRequest} objects representing the runs
      */
     @GetMapping("/sparql-ski-runs")
     public List<RdfSkiRunRequest> getSparqlSkiRuns() {
@@ -66,7 +66,7 @@ public class SparqlController {
 
     /**
      * Creates a new ski run entry in the RDF triplestore.
-     * * @param request the data required to create a new semantic ski run
+     * @param request the data required to create a new semantic ski run
      * @return a confirmation message indicating the result of the insertion
      */
     @PostMapping("/sparql-ski-runs")
@@ -76,7 +76,7 @@ public class SparqlController {
 
     /**
      * Retrieves all ski lifts currently defined in the RDF triplestore.
-     * * @return a Map where the keys are lift URIs/IDs and values are the lift names
+     * @return a Map where the keys are lift URIs/IDs and values are the lift names
      */
     @GetMapping("/sparql-ski-lifts")
     public Map<String, String> getSparqlSkiLifts() {
@@ -85,18 +85,18 @@ public class SparqlController {
 
     /**
      * Creates a new ski lift entry in the RDF triplestore.
-     * * @param request the data required to create a new semantic ski lift
+     * @param request the data required to create a new semantic ski lift
      * @return a confirmation message indicating the result of the insertion
      */
     @PostMapping("/sparql-ski-lifts")
     public String createSparqlSkiLift(@org.springframework.web.bind.annotation.RequestBody RdfSkiLiftRequest request) {
-        return sparqlService.createSparqlSkiLift(request);
+        return sparqlService.createSparqlSkiLift(request, null);
     }
 
     /**
      * Filters ski runs based on user preferences using a weighted scoring system 
      * executed via a SPARQL query.
-     * * @param preferences the weighted criteria (difficulty, grooming, lighting, etc.)
+     * @param preferences the weighted criteria (difficulty, grooming, lighting, etc.)
      * @return a list of ski run IDs ordered by their suitability score
      */
     @PostMapping("/get-filtered-ski-runs")

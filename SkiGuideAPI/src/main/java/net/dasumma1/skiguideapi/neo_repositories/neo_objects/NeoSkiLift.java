@@ -27,7 +27,7 @@ public class NeoSkiLift {
 
     /**
      * Constructs a new NeoSkiLift entity.
-     * * @param id     the unique identifier for the lift
+     * @param id     the unique identifier for the lift
      * @param name   the name of the lift
      * @param type   the type of lift infrastructure
      * @param areaId the identifier of the parent ski area
@@ -41,7 +41,7 @@ public class NeoSkiLift {
 
     /**
      * Gets the unique identifier of this ski lift.
-     * * @return the lift ID
+     * @return the lift ID
      */
     public String getId() {
         return id;
@@ -49,7 +49,7 @@ public class NeoSkiLift {
 
     /**
      * Gets the name of this ski lift.
-     * * @return the lift name
+     * @return the lift name
      */
     public String getName() {
         return name;
@@ -57,7 +57,7 @@ public class NeoSkiLift {
 
     /**
      * Gets the classification type of the lift infrastructure.
-     * * @return the lift type string
+     * @return the lift type string
      */
     public String getType() {
         return type;
@@ -65,7 +65,7 @@ public class NeoSkiLift {
 
     /**
      * Gets the identifier for the associated ski area.
-     * * @return the area ID
+     * @return the area ID
      */
     public String getAreaId() {
         return areaId;

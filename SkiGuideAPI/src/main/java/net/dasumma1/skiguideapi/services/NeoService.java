@@ -1,13 +1,11 @@
 package net.dasumma1.skiguideapi.services;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
-import net.dasumma1.skiguideapi.area_objects.Point;
 import net.dasumma1.skiguideapi.neo_repositories.SkiAreaRepository;
 import net.dasumma1.skiguideapi.neo_repositories.SkiLiftRepository;
 import net.dasumma1.skiguideapi.neo_repositories.SkiRunRepository;
@@ -15,6 +13,10 @@ import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiArea;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiLift;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiPoint;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiRun;
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.GeoJSONFeature.GeoJSONFeatureRequest.GeoJSONFeature;
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.GeoJSONFeature.GeoJSONFeatureRequest.GeoJSONFeatureCollection;
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.GeoJSONFeature.GeoJSONFeatureRequest.GeoJSONGeometry;
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.GeoJSONFeature.GeoJSONFeatureRequest.GeoJSONProperties;
 
 @Service
 public class NeoService {
@@ -130,8 +132,8 @@ public class NeoService {
      * @param runId identifier of the ski run
      * @return list of matching NeoSkiArea objects
      */
-    public List<NeoSkiArea> getSkiAreaBySkiRunId(String runId) {
-        return skiAreaRepository.findSkiAreaBySkiRunId(runId);
+    public List<NeoSkiArea> getSkiAreaByFeatureId(String runId) {
+        return skiAreaRepository.findSkiAreaByFeatureId(runId);
     }
 
     /**
@@ -143,7 +145,7 @@ public class NeoService {
      * @param end destination point of the route
      * @return string representation of the found route result
      */
-    public String findRoute(List<String> filteredRuns, Point start, Point end) {
+    public String findRoute(List<String> filteredRuns, NeoSkiPoint start, NeoSkiPoint end) {
         skiAreaRepository.deleteGdsGraph();
         skiAreaRepository.createGdsGraph(filteredRuns);
         Logger.getLogger("NeoService").info("Points from " + start.toString() + " to " + end.toString());
@@ -164,8 +166,8 @@ public class NeoService {
      * @param point geographic point used as the search origin
      * @return nearest NeoSkiArea object
      */
-    public NeoSkiArea getClosestSkiArea(Point point) {
-        return skiAreaRepository.getClosestSkiArea(point);
+    public NeoSkiArea getClosestSkiArea(NeoSkiPoint point) {
+        return skiAreaRepository.findClosestSkiArea(point.getLon(), point.getLat());
     }
 
     /**
@@ -185,7 +187,7 @@ public class NeoService {
      * @param skiRunsJson JSON text containing ski run definitions
      * @param skiLiftsJson JSON text containing ski lift definitions
      */
-    public void createSkiAreaUsingJson(String skiAreaJson, String skiRunsJson, String skiLiftsJson) {
+    /*public void createSkiAreaUsingJson(String skiAreaJson, String skiRunsJson, String skiLiftsJson) {
         skiAreaRepository.createSkiAreas(skiAreaJson);
         skiAreaRepository.createSkiRunsMetadata(skiRunsJson);
         skiAreaRepository.createRunPoints(skiRunsJson);
@@ -193,10 +195,125 @@ public class NeoService {
         skiAreaRepository.createSkiLifts(skiLiftsJson);
         skiAreaRepository.connectRunsLifts();
         skiAreaRepository.calculateDistances();
+    }*/
+
+    /**
+     * Finds the closest {@link NeoSkiPoint} in the Neo4J database to the given {@link NeoSkiPoint}. Calls {@link SkiAreaRepository#findClosestPoint(double, double)} and logs the result.
+     * @param point Given {@link NeoSkiPoint}.
+     * @return Closest {@link NeoSkiPoint} in relation to the given point.
+     */
+    public NeoSkiPoint getClosestPoint(NeoSkiPoint point) {
+        NeoSkiPoint closestPoint = skiAreaRepository.findClosestPoint(point.getLon(), point.getLat());
+        Logger.getLogger(NeoService.class.getName()).info("Closest point to " + point.toString() + ": " + closestPoint.toString());
+        return closestPoint != null ? closestPoint : new NeoSkiPoint(point.getLon(), point.getLat(), 0.0);
     }
 
-    public NeoSkiPoint getClosestPoint(Point point) {
-        NeoSkiPoint closestPoint = skiAreaRepository.findClosestPoint(point.getLongitude(), point.getLatitude());
-        return closestPoint != null ? closestPoint : new NeoSkiPoint(point.getLongitude(), point.getLatitude());
+    /**
+     * Generates a {@link GeoJSONFeatureCollection} for all ski runs in a given ski area.
+     * @param skiAreaId the unique identifier of the ski area to generate a GeoJSON for.
+     * @return the generated {@link GeoJSONFeatureCollection}.
+     */
+    public GeoJSONFeatureCollection getSkiRunsGeoJSON(String skiAreaId) {
+        List<GeoJSONFeature> features = new ArrayList<>();
+        List<NeoSkiRun> skiRuns = skiAreaRepository.getSkiRunsByAreaId(skiAreaId);
+        for (NeoSkiRun run : skiRuns) {
+            Logger.getLogger(NeoService.class.getName()).info("Processing ski run: " + run.getId());
+            List<NeoSkiPoint> points = skiAreaRepository.getPointsByFeatureId(run.getId());
+
+            GeoJSONProperties properties = new GeoJSONProperties(
+                run.getId(), 
+                run.getName()
+            );
+
+            GeoJSONGeometry geometry = new GeoJSONGeometry(
+                "LineString",
+                points.stream()
+                .map(p -> List.of(p.getLon(), p.getLat(), p.getAlt()))
+                .toList()
+            );
+
+            GeoJSONFeature feature = new GeoJSONFeature(
+                "Feature",
+                properties,
+                geometry
+            );
+            if(feature.geometry().coordinates().isEmpty()) {
+                Logger.getLogger(NeoService.class.getName()).warning("Ski run " + run.getId() + " has no coordinates and will be skipped in GeoJSON output.");
+                continue; // Skip runs with no coordinates
+            }
+            features.add(feature);
+        }
+
+        GeoJSONFeatureCollection geoJSON = new GeoJSONFeatureCollection(
+            "FeatureCollection",
+            features
+        );
+
+        Logger.getLogger(NeoService.class.getName()).info("Generated GeoJSON for ski runs in area " + skiAreaId + ": " + geoJSON.toString());
+
+        return geoJSON;
     }
+
+    /**
+     * Generates a {@link GeoJSONFeatureCollection} for all ski lifts in a given ski area.
+     * @param skiAreaId the unique identifier of the ski area to generate a GeoJSON for.
+     * @return the generated {@link GeoJSONFeatureCollection}.
+     */  
+    public GeoJSONFeatureCollection getSkiLiftsGeoJSON(String skiAreaId) {
+        List<GeoJSONFeature> features = new ArrayList<>();
+        List<NeoSkiLift> lifts = skiAreaRepository.getSkiLiftsByAreaId(skiAreaId);
+        for (NeoSkiLift lift : lifts) {
+            List<NeoSkiPoint> points = skiAreaRepository.getPointsByFeatureId(lift.getId());
+
+            GeoJSONProperties properties = new GeoJSONProperties(
+                lift.getId(), 
+                lift.getName()
+            );
+            GeoJSONGeometry geometry = new GeoJSONGeometry(
+                "LineString",
+                points.stream()
+                .map(p -> List.of(p.getLon(), p.getLat(), p.getAlt()))
+                .toList()
+            );
+
+            GeoJSONFeature feature = new GeoJSONFeature(
+                "Feature",
+                properties,
+                geometry
+            );
+
+            if(feature.geometry().coordinates().isEmpty()) {
+                Logger.getLogger(NeoService.class.getName()).warning("Ski run " + lift.getId() + " has no coordinates and will be skipped in GeoJSON output.");
+                continue; // Skip runs with no coordinates
+            }
+
+            features.add(feature);
+        }
+
+        GeoJSONFeatureCollection geoJSON = new GeoJSONFeatureCollection(
+            "FeatureCollection",
+            features
+        );
+
+        Logger.getLogger(NeoService.class.getName()).info("Generated GeoJSON for ski runs in area " + skiAreaId + ": " + geoJSON.toString());
+
+        return geoJSON;
+    }
+
+    /**
+     * Searches for a {@link NeoSkiArea} via its name.
+     * @param name The name to search for.
+     * @return Instance of a {@link NeoSkiArea} object.
+     */
+    public NeoSkiArea getSkiAreaByName(String name) {
+        NeoSkiArea skiArea = skiAreaRepository.getSkiAreaByName(name);
+        if (skiArea == null) {
+            Logger.getLogger(NeoService.class.getName()).warning("No ski area found with name: " + name);
+            return null;
+        }
+        Logger.getLogger(NeoService.class.getName()).info("Ski area found with name: " + name);
+        Logger.getLogger(NeoService.class.getName()).info("Found Ski Area: " + skiArea.toString());
+        return skiArea;
+    }
+    
 }

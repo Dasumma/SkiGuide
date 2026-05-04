@@ -38,10 +38,10 @@ public class RdfSkiRunRequest {
 
     /** Indicates if the run is a gladed (tree skiing) area. */
     private Boolean isGladed;
+    
 
     /**
      * Constructs a new RdfSkiRunRequest with all specified semantic attributes.
-     *
      * @param id            the unique run identifier
      * @param name          the name of the run
      * @param hasDifficulty the difficulty rating

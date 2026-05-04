@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
-import net.dasumma1.skiguideapi.area_objects.Point;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiArea;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiLift;
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiPoint;
 import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiRun;
 import net.dasumma1.skiguideapi.request_objects.RdfSkiRunPreferencesRequest;
 import net.dasumma1.skiguideapi.request_objects.RdfSkiRunRequest;
@@ -31,7 +31,7 @@ public class SkiAreaService {
 
     /**
      * Constructs a new SkiAreaService with the required data services.
-     * * @param neoService the service used for Neo4j operations
+     * @param neoService the service used for Neo4j operations
      * @param sparqlService the service used for SPARQL/RDF operations
      */
     public SkiAreaService(NeoService neoService, SparqlService sparqlService) {
@@ -41,7 +41,7 @@ public class SkiAreaService {
 
     /**
      * Identifies ski areas that exist in the Neo4j database but are missing from the SPARQL store.
-     * * @return a Map where the key is the area ID and the value is the area name
+     * @return a Map where the key is the area ID and the value is the area name
      */
     public Map<String, String> findAreasInNeoNotInSparql() {
         var neoSkiAreas = neoService.getAllSkiAreas();
@@ -58,7 +58,7 @@ public class SkiAreaService {
 
     /**
      * Identifies ski areas that exist in the SPARQL store but are missing from the Neo4j database.
-     * * @return a Map where the key is the area ID and the value is the area name
+     * @return a Map where the key is the area ID and the value is the area name
      */
     public Map<String, String> findAreasInSparqlNotInNeo() {
         var neoSkiAreas = neoService.getAllSkiAreas();
@@ -75,7 +75,7 @@ public class SkiAreaService {
 
     /**
      * Synchronizes missing ski areas by fetching them from Neo4j and creating them in the SPARQL store.
-     * * @return a confirmation string listing the areas added to SPARQL
+     * @return a confirmation string listing the areas added to SPARQL
      */
     public String addMissingAreasToSparql() {
         Map<String, String> missingAreas = findAreasInNeoNotInSparql();
@@ -93,7 +93,7 @@ public class SkiAreaService {
 
     /**
      * Identifies ski runs that exist in the Neo4j database but are missing from the SPARQL store.
-     * * @return a Map where the key is the run ID and the value is the run name
+     * @return a Map where the key is the run ID and the value is the run name
      */
     public Map<String, String> findRunsInNeoNotInSparql() {
         var neoSkiRuns = neoService.getAllSkiRuns();
@@ -110,7 +110,7 @@ public class SkiAreaService {
     
     /**
      * Identifies ski runs that exist in the SPARQL store but are missing from the Neo4j database.
-     * * @return a Map where the key is the run ID and the value is the run name
+     * @return a Map where the key is the run ID and the value is the run name
      */
     public Map<String, String> findRunsInSparqlNotInNeo() {
         var neoSkiRuns = neoService.getAllSkiRuns();
@@ -128,7 +128,7 @@ public class SkiAreaService {
     /**
      * Synchronizes missing ski runs by fetching their detailed attributes from Neo4j 
      * and creating the corresponding RDF entries in the SPARQL store.
-     * * @return a confirmation string listing the runs added to SPARQL
+     * @return a confirmation string listing the runs added to SPARQL
      */
     public String addMissingRunsToSparql() {
         Map<String, String> missingRuns = findRunsInNeoNotInSparql();
@@ -147,8 +147,9 @@ public class SkiAreaService {
                 neoRun.getGladed()
             );
 
-            List<NeoSkiArea> areas = neoService.getSkiAreaBySkiRunId(runId);
+            List<NeoSkiArea> areas = neoService.getSkiAreaByFeatureId(runId);
             List<String> areaIds = areas.stream().map(NeoSkiArea::getId).toList();
+            Logger.getLogger(SkiAreaService.class.getName()).info("Associating run " + runId + " with areas: " + areaIds.toString());
 
             sparqlService.createSparqlSkiRun(request, areaIds);
         });
@@ -157,7 +158,7 @@ public class SkiAreaService {
     
     /**
      * Identifies ski lifts that exist in the Neo4j database but are missing from the SPARQL store.
-     * * @return a Map where the key is the lift ID and the value is the lift name
+     * @return a Map where the key is the lift ID and the value is the lift name
      */
     public Map<String, String> findLiftsInNeoNotInSparql() {
         var neoSkiLifts = neoService.getAllSkiLifts();
@@ -174,7 +175,7 @@ public class SkiAreaService {
 
     /**
      * Identifies ski lifts that exist in the SPARQL store but are missing from the Neo4j database.
-     * * @return a Map where the key is the lift ID and the value is the lift name
+     * @return a Map where the key is the lift ID and the value is the lift name
      */
     public Map<String, String> findLiftsInSparqlNotInNeo() {
         var neoSkiLifts = neoService.getAllSkiLifts();
@@ -192,7 +193,7 @@ public class SkiAreaService {
     /**
      * Synchronizes missing ski lifts by fetching their metadata from Neo4j 
      * and creating the corresponding RDF entries in the SPARQL store.
-     * * @return a confirmation string listing the lifts added to SPARQL
+     * @return a confirmation string listing the lifts added to SPARQL
      */
     public String addMissingLiftsToSparql() {
         Map<String, String> missingLifts = findLiftsInNeoNotInSparql();
@@ -205,7 +206,10 @@ public class SkiAreaService {
             request.setType(neoLift.getType());
             request.setAreaId(neoLift.getAreaId());
 
-            sparqlService.createSparqlSkiLift(request);
+            List<NeoSkiArea> areas = neoService.getSkiAreaByFeatureId(liftId);
+            List<String> areaIds = areas.stream().map(NeoSkiArea::getId).toList();
+
+            sparqlService.createSparqlSkiLift(request, areaIds);
         });
         return "Missing lifts added to SPARQL: " + missingLifts.toString();
     }
@@ -214,12 +218,12 @@ public class SkiAreaService {
      * Calculates the optimal route between two points by filtering available runs 
      * through the SPARQL service based on user preferences and then performing 
      * a graph search in Neo4j.
-     * * @param request the user's run preferences (difficulty, grooming, etc.)
+     * @param request the user's run preferences (difficulty, grooming, etc.)
      * @param start the starting geographical Point
      * @param end the destination geographical Point
      * @return a string representation of the found route
      */
-    public String getBestRouteUsingPriorityRuns(RdfSkiRunPreferencesRequest request, Point start, Point end) {
+    public String getBestRouteUsingPriorityRuns(RdfSkiRunPreferencesRequest request, NeoSkiPoint start, NeoSkiPoint end) {
         var filteredRuns = sparqlService.getFilteredSkiRuns(request);
         Logger.getLogger(SkiAreaService.class.getName()).info("Filtered runs based on preferences: " + filteredRuns.toString());
         var findRoute = neoService.findRoute(filteredRuns, start, end);

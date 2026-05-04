@@ -1,5 +1,6 @@
 package net.dasumma1.skiguideapi.area_objects;
 
+import net.dasumma1.skiguideapi.neo_repositories.neo_objects.NeoSkiPoint;
 import net.dasumma1.skiguideapi.request_objects.RdfSkiRunPreferencesRequest;
 
 /**
@@ -15,18 +16,18 @@ public class GetBestRouteUsingPriorityRunsRequest {
     private RdfSkiRunPreferencesRequest preferences;
     
     /** The starting geographical point for the route search. */
-    private Point start;
+    private NeoSkiPoint start;
     
     /** The destination geographical point for the route search. */
-    private Point end;
+    private NeoSkiPoint end;
 
     /**
      * Constructs a new routing request with the specified criteria.
-     * * @param preferences the user's weighted run preferences
+     * @param preferences the user's weighted run preferences
      * @param start       the starting {@link Point}
      * @param end         the destination {@link Point}
      */
-    public GetBestRouteUsingPriorityRunsRequest(RdfSkiRunPreferencesRequest preferences, Point start, Point end) {
+    public GetBestRouteUsingPriorityRunsRequest(RdfSkiRunPreferencesRequest preferences, NeoSkiPoint start, NeoSkiPoint end) {
         this.preferences = preferences;
         this.start = start;
         this.end = end;
@@ -39,14 +40,14 @@ public class GetBestRouteUsingPriorityRunsRequest {
     public void setPreferences(RdfSkiRunPreferencesRequest preferences) { this.preferences = preferences; }
     
     /** @return the starting point of the requested route. */
-    public Point getStart() { return start; }
+    public NeoSkiPoint getStart() { return start; }
     
     /** @param start the new starting point for the calculation. */
-    public void setStart(Point start) { this.start = start; }
+    public void setStart(NeoSkiPoint start) { this.start = start; }
     
     /** @return the target end point of the requested route. */
-    public Point getEnd() { return end; }
+    public NeoSkiPoint getEnd() { return end; }
     
     /** @param end the new destination point for the calculation. */
-    public void setEnd(Point end) { this.end = end; }
+    public void setEnd(NeoSkiPoint end) { this.end = end; }
 }

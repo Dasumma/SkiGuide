@@ -21,7 +21,7 @@ public class NeoSkiArea {
 
     /**
      * Constructs a new NeoSkiArea entity.
-     * * @param id   the unique identifier for the area
+     * @param id   the unique identifier for the area
      * @param name the name of the ski area
      */
     public NeoSkiArea(String id, String name) {
@@ -31,7 +31,7 @@ public class NeoSkiArea {
 
     /**
      * Gets the unique identifier of this ski area.
-     * * @return the area ID
+     * @return the area ID
      */
     public String getId() {
         return id;
@@ -39,7 +39,7 @@ public class NeoSkiArea {
 
     /**
      * Gets the name of this ski area.
-     * * @return the area name
+     * @return the area name
      */
     public String getName() {
         return name;

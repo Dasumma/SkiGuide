@@ -22,7 +22,7 @@ public class RouteResult {
 
     /**
      * Constructs a new RouteResult.
-     * * @param path     the list of coordinate pairs defining the route
+     * @param path     the list of coordinate pairs defining the route
      * @param distance the total traversal distance
      */
     public RouteResult(@Param("path") List<double[]> path, @Param("distance") Double distance) {
@@ -46,7 +46,7 @@ public class RouteResult {
      * Converts the list of coordinate arrays into a JSON-compliant string representation.
      * <p>
      * For example: [[lon1,lat1],[lon2,lat2]]
-     * * @return a formatted string of the coordinate path
+     * @return a formatted string of the coordinate path
      */
     public String pathToString(){
         StringBuilder pathString = new StringBuilder().append("[");

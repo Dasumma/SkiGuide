@@ -46,7 +46,7 @@ public class NeoSkiRun {
 
     /**
      * Constructs a new NeoSkiRun entity with all specified attributes.
-     * * @param id         the unique identifier for the run
+     * @param id         the unique identifier for the run
      * @param name       the name of the run
      * @param difficulty the difficulty rating
      * @param areaId     the ID of the parent ski area
